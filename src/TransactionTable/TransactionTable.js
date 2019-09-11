@@ -1,22 +1,13 @@
 import React from 'react';
+import TransactionRow from '../TransactionRow/TransactionRow';
 import './TransactionTable.css';
 import DATA from '../DATA';
 
 class TransactionTable extends React.Component {
     render() {
-        const transactions = DATA.accounts[2].transactions;
-        const transactionRows = transactions.map(transaction => {
-            const { transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow } = transaction;
-            return (
-                <tr>
-                    <td className='TransactionTable__cell TransactionTable__cell--no-right-margin'>{transactionDate}</td>
-                    <td className='TransactionTable__cell'>{transactionPayee}</td>
-                    <td className='TransactionTable__cell'>{transactionCategory}</td>
-                    <td className='TransactionTable__cell'>{transactionMemo}</td>
-                    <td className='TransactionTable__cell'>{transactionOutflow}</td>
-                    <td className='TransactionTable__cell'>{transactionInflow}</td>
-                </tr>
-            );
+        const cashTransactions = DATA.accounts[2].transactions;
+        const cashTransactionRows = cashTransactions.map((cashTransaction, index) => {
+            return <TransactionRow key={index} cashTransaction={cashTransaction} />
         });
 
         return (
@@ -32,7 +23,7 @@ class TransactionTable extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {transactionRows}
+                    {cashTransactionRows}
                 </tbody>
             </table>
         );

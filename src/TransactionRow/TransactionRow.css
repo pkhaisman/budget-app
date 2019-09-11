@@ -1,0 +1,13 @@
+.TransactionRow {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.TransactionRow__cell {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.TransactionRow__cell--no-right-margin {
+    border-left: none;
+}
