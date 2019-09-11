@@ -1,0 +1,8 @@
+.Header {
+    height: 100px;
+    border-bottom: 1px solid black;
+}
+
+.Header__title {
+    margin: 20px 0 0 10px;
+}

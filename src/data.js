@@ -1,44 +1,90 @@
-export default DATA = {
+const DATA = {
     accounts: [
+        {
+            accountName: 'Balance',
+            accountBalance: 1100
+        },
         {
             accountName: 'Citizens Bank',
             accountBalance: 1000,
             transactions: [
                 {
-                    transaction_date: '',
-                    transaction_payee: 'Ultimo Coffee House',
-                    transaction_category: 'Food: Dining',
-                    transaction_memo: 'Coffee',
-                    transaction_outflow: 5,
-                    transaction_inflow: null,
-                    transaction_account: DATA.account_name
+                    transactionDate: '',
+                    transactionPayee: 'Ultimo Coffee House',
+                    transactionCategory: 'Food: Dining',
+                    transactionMemo: 'Coffee',
+                    transactionOutflow: 5,
+                    transactionInflow: null,
+                    transactionAccount: 'Citizens Bank'
                 },
                 {
-                    transaction_date: '',
-                    transaction_payee: 'Whole Foods',
-                    transaction_category: 'Food: Groceries',
-                    transaction_memo: '',
-                    transaction_outflow: 25,
-                    transaction_inflow: null,
-                    transaction_account: DATA.account_name
+                    transactionDate: '',
+                    transactionPayee: 'Whole Foods',
+                    transactionCategory: 'Food: Groceries',
+                    transactionMemo: '',
+                    transactionOutflow: 25,
+                    transactionInflow: null,
+                    transactionAccount: 'Citizens Bank'
                 },
                 {
-                    transaction_date: '',
-                    transaction_payee: 'El Poquito',
-                    transaction_category: 'Inflow: To Be Budgeted',
-                    transaction_memo: '',
-                    transaction_outflow: null,
-                    transaction_inflow: 200,
-                    transaction_account: DATA.account_name
+                    transactionDate: '',
+                    transaction_Payee: 'El Poquito',
+                    transactionCategory: 'Inflow: To Be Budgeted',
+                    transactionMemo: '',
+                    transactionOutflow: null,
+                    transactionInflow: 200,
+                    transactionAccount: 'Citizens Bank'
                 },
                 {
-                    transaction_date: '',
-                    transaction_payee: 'REI',
-                    transaction_category: 'Material Posessions: Climbing',
-                    transaction_memo: 'Climbing shoes',
-                    transaction_outflow: 180,
-                    transaction_inflow: null,
-                    transaction_account: DATA.account_name
+                    transactionDate: '',
+                    transactionPayee: 'REI',
+                    transactionCategory: 'Material Posessions: Climbing',
+                    transactionMemo: 'Climbing shoes',
+                    transactionOutflow: 180,
+                    transactionInflow: null,
+                    transactionAccount: 'Citizens Bank'
+                },
+            ]
+        },
+        {
+            accountName: 'Cash',
+            accountBalance: 100,
+            transactions: [
+                {
+                    transactionDate: '',
+                    transactionPayee: 'Ultimo Coffee House',
+                    transactionCategory: 'Food: Dining',
+                    transactionMemo: 'Coffee',
+                    transactionOutflow: 5,
+                    transactionInflow: null,
+                    transactionAccount: 'Cash'
+                },
+                {
+                    transactionDate: '',
+                    transactionPayee: 'Whole Foods',
+                    transactionCategory: 'Food: Groceries',
+                    transactionMemo: '',
+                    transactionOutflow: 25,
+                    transactionInflow: null,
+                    transactionAccount: 'Cash'
+                },
+                {
+                    transactionDate: '',
+                    transaction_Payee: 'El Poquito',
+                    transactionCategory: 'Inflow: To Be Budgeted',
+                    transactionMemo: '',
+                    transactionOutflow: null,
+                    transactionInflow: 200,
+                    transactionAccount: 'Cash'
+                },
+                {
+                    transactionDate: '',
+                    transactionPayee: 'REI',
+                    transactionCategory: 'Material Posessions: Climbing',
+                    transactionMemo: 'Climbing shoes',
+                    transactionOutflow: 180,
+                    transactionInflow: null,
+                    transactionAccount: 'Cash'
                 },
             ]
         }
@@ -55,16 +101,18 @@ export default DATA = {
                     subCategoryBudgeted: 75,
                     subCategorySpent: 25,
                     subCategoryAvailable: 50,
-                    category: DATA.categories.categoryName
+                    category: 'Food'
                 },
                 {
                     subCategoryName: 'Dining',
                     subCategoryBudgeted: 25,
                     subCategorySpent: 25,
                     subCategoryAvailable: 0,
-                    category: DATA.categories.categoryName
+                    category: 'Food'
                 }
             ]
         }
     ]
 }
+
+export default DATA;
