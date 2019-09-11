@@ -2,14 +2,14 @@ import React from 'react';
 import Header from '../Header/Header';
 import AccountList from '../AccountList/AccountList';
 import AccountTransactionList from '../AccountTransactionList/AccountTransactionList';
-import './BudgetAccountView.css';
+import './AccountPage.css';
 
-class BudgetAccountView extends React.Component {
+class AccountPage extends React.Component {
     render() {
         return (
-            <div className='BudgetAccountView'>
+            <div className='AccountPage'>
                 <Header />
-                <div className='BudgetAccountView__main-content'>
+                <div className='AccountPage__main-content'>
                     <AccountList />
                     <AccountTransactionList />
                 </div>
@@ -18,4 +18,4 @@ class BudgetAccountView extends React.Component {
     }
 }
 
-export default BudgetAccountView;
+export default AccountPage;

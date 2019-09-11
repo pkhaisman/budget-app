@@ -1,0 +1,10 @@
+.subCategoryRow {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.subCategoryRow__cell {
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-left: none;
+}

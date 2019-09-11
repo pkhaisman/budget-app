@@ -95,20 +95,18 @@ const DATA = {
             categoryBudgeted: 100,
             categorySpent: 50,
             categoryAvailable: 50,
-            subCategory: [
+            subCategories: [
                 {
                     subCategoryName: 'Groceries',
                     subCategoryBudgeted: 75,
                     subCategorySpent: 25,
                     subCategoryAvailable: 50,
-                    category: 'Food'
                 },
                 {
                     subCategoryName: 'Dining',
                     subCategoryBudgeted: 25,
                     subCategorySpent: 25,
                     subCategoryAvailable: 0,
-                    category: 'Food'
                 }
             ]
         }
