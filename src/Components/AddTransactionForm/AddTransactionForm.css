@@ -1,0 +1,23 @@
+.AddTransactionForm {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.AddTransactionForm__title {
+    margin: 0;
+}
+
+.AddTransactionForm__user-inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.AddTransactionForm__buttons {
+    display: flex;
+    justify-content: space-between;
+}

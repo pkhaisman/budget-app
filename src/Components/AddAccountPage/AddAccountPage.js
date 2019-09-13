@@ -3,8 +3,7 @@ import Header from '../Header/Header';
 import AddAccountForm from '../AddAccountForm/AddAccountForm';
 import './AddAccountPage.css';
 
-// remove this comment
-function AddAccountPage() {
+export default function AddAccountPage() {
     return (
         <div className='AddAccountPage'>
             <Header />
@@ -12,5 +11,3 @@ function AddAccountPage() {
         </div>
     );
 }
-
-export default AddAccountPage;
