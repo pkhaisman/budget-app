@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './AccountSummary.css';
 
 class AccountSummary extends React.Component {
@@ -7,7 +8,11 @@ class AccountSummary extends React.Component {
             <ul className='AccountSummary'>
                 <li>Cash</li>
                 <li>Balance</li>
-                <li>Add</li>
+                <li>
+                    <Link to={'/accounts/add-transaction'}>
+                        <button>Add</button>
+                    </Link>
+                </li>
             </ul>
         );
     }

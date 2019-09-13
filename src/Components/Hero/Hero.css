@@ -1,0 +1,22 @@
+.Hero {
+    padding-top: 70px;
+}
+
+.Hero__title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Hero__title-container__title {
+    margin: 10px 0 0 0;
+}
+
+.Hero__button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.Hero__button-container__button {
+    margin: 10px;
+}

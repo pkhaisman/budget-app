@@ -1,7 +1,7 @@
 import React from 'react';
 import CategoryRow from '../CategoryRow/CategoryRow';
 import './CategoryTable.css';
-import DATA from '../DATA';
+import DATA from '../../DATA';
 
 class CategoryTable extends React.Component {
     render() {

@@ -1,0 +1,9 @@
+.Content__title {
+    text-align: center;
+}
+
+.Content__container {
+    display: flex;
+    justify-content: space-around;
+}
+

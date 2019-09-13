@@ -3,7 +3,7 @@ import './AccountList.css';
 import BudgetNavButton from '../BudgetNavButton/BudgetNavButton';
 import AccountRow from '../AccountRow/AccountRow';
 import AddAccountButton from '../AddAccountButton/AddAccountButton';
-import DATA from '../DATA';
+import DATA from '../../DATA';
 
 class AccountList extends React.Component {
     render() {

@@ -1,8 +1,9 @@
 import React from 'react';
 import TransactionRow from '../TransactionRow/TransactionRow';
 import './TransactionTable.css';
-import DATA from '../DATA';
+import DATA from '../../DATA';
 
+// lists all transactions in given account
 class TransactionTable extends React.Component {
     render() {
         const cashTransactions = DATA.accounts[2].transactions;

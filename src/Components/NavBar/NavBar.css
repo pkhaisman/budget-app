@@ -1,0 +1,12 @@
+.NavBar {
+    position: fixed;
+    height: 70px;
+    background-color:#D3D3D3;
+}
+
+.NavBar__flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
+}
