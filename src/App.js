@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import LoginPage from './Components/LoginPage/LoginPage';
-import BudgetPage from './Components/BudgetPage/BudgetPage';
-import SignUpPage from './Components/SignUpPage/SignUpPage';
-import LandingPage from './Components/LandingPage/LandingPage';
-import AccountPage from './Components/AccountPage/AccountPage';
-import AddAccountPage from './Components/AddAccountPage/AddAccountPage';
-import AddTransactionPage from './Components/AddTransactionPage/AddTransactionPage';
+import LoginPage from './Components/Pages/LoginPage/LoginPage';
+import BudgetPage from './Components/Pages/BudgetPage/BudgetPage';
+import SignUpPage from './Components/Pages/SignUpPage/SignUpPage';
+import LandingPage from './Components/Pages/LandingPage/LandingPage';
+import AccountPage from './Components/Pages/AccountPage/AccountPage';
+import AddAccountPage from './Components/Pages/AddAccountPage/AddAccountPage';
+import AddTransactionPage from './Components/Pages/AddTransactionPage/AddTransactionPage';
 
 class App extends React.Component {
     render() {

@@ -1,0 +1,32 @@
+.subCategoryRow {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.subCategoryRow__cell {
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-left: none;
+}
+
+.subCategoryRow__cell--col-3 {
+    display: none;
+}
+
+@media screen and (min-width: 800px) {
+    .subCategoryRow {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .subCategoryRow__cell {
+        border: 1px solid black;
+        border-collapse: collapse;
+        border-left: none;
+    }
+
+    .subCategoryRow__cell--col-3 {
+        display: table-cell;
+    }
+}
+

@@ -1,0 +1,22 @@
+.Content__title {
+    text-align: center;
+}
+
+.Content__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media screen and (min-width: 800px) {
+    .Content__title {
+        text-align: center;
+    }
+    
+    .Content__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}
+

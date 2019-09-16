@@ -1,0 +1,68 @@
+.TransactionTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.TransactionTable__cell {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.TransactionTable__cell--no-right-margin {
+    border-left: none;
+}
+
+.TransactionTable__cell__col-1 {
+    display: none;
+}
+
+.TransactionTable__cell__col-3 {
+    display: none;
+}
+
+.TransactionTable__cell__col-4 {
+    display: none;
+}
+
+@media screen and (min-width: 800px) {
+    .TransactionTable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .TransactionTable__cell {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    
+    .TransactionTable__cell--no-right-margin {
+        border-left: none;
+    }
+    
+    .TransactionTable__cell__col-1 {
+        width: 10%;
+        display: table-cell;
+    }
+    
+    .TransactionTable__cell__col-2 {
+        width: 20%;
+    }
+    
+    .TransactionTable__cell__col-3 {
+        width: 30%;
+        display: table-cell;
+    }
+    
+    .TransactionTable__cell__col-4 {
+        width: 20%;
+        display: table-cell;
+    }
+    
+    .TransactionTable__cell__col-5 {
+        width: 10%;
+    }
+    
+    .TransactionTable__cell__col-6 {
+        width: 10%;
+    }
+}

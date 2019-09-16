@@ -1,0 +1,31 @@
+.CategoryRow {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.CategoryRow__cell {
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-left: none;
+}
+
+.CategoryRow__cell--col-3 {
+    display: none;
+}
+
+@media screen and (min-width: 800px) {
+    .CategoryRow {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .CategoryRow__cell {
+        border: 1px solid black;
+        border-collapse: collapse;
+        border-left: none;
+    }
+
+    .CategoryRow__cell--col-3 {
+        display: table-cell;
+    }
+}

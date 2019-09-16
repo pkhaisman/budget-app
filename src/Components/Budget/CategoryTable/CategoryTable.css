@@ -1,0 +1,45 @@
+.CategoryTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.CategoryTable__cell {
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-left: none;
+}
+
+.CategoryTable__cell--col-3 {
+    display: none;
+}
+
+@media screen and (min-width: 800px) {
+    .CategoryTable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .CategoryTable__cell {
+        border: 1px solid black;
+        border-collapse: collapse;
+        border-left: none;
+    }
+    
+    .CategoryTable__cell--col-1 {
+        width: 50%;
+    }
+    
+    .CategoryTable__cell--col-2 {
+        width: 16.66%;
+    }
+    
+    .CategoryTable__cell--col-3 {
+        display: table-cell;
+        width: 16.66%;
+    }
+    
+    .CategoryTable__cell--col-4 {
+        width: 16.67%;
+    }
+
+}
