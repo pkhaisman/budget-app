@@ -26,7 +26,10 @@
     }
     
     .CategoryTable__cell--col-1 {
-        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: none;
     }
     
     .CategoryTable__cell--col-2 {

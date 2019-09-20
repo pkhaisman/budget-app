@@ -1,0 +1,23 @@
+.AddCategoryForm {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.AddCategoryForm__title {
+    margin: 0;
+}
+
+.AddCategoryForm__user-inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.AddCategoryForm__buttons {
+    display: flex;
+    justify-content: space-between;
+}

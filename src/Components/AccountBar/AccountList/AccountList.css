@@ -2,6 +2,12 @@
     display: none;
 }
 
+.AccountList__balance {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px;
+}
+
 @media screen and (min-width: 800px) {
     .AccountList {
         display: inline-block;

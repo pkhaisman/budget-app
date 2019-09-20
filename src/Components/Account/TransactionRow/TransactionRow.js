@@ -3,7 +3,7 @@ import './TransactionRow.css';
 
 class TransactionRow extends React.Component {
     render() {
-        const { transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow } = this.props.cashTransaction;
+        const { transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow } = this.props.transaction;
         return (
             <tr className='TransactionRow'>
                 <td className='TransactionRow__cell TransactionRow__cell__col-1 TransactionRow__cell--no-right-margin'>{transactionDate}</td>

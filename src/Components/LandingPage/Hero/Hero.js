@@ -14,7 +14,7 @@ class Hero extends React.Component {
                     <Link to={'/signup'}>
                         <button className='Hero__button-container__button'>Sign Up</button>
                     </Link>
-                    <Link to={'/accounts'}>
+                    <Link to={'/budget'}>
                         <button className='Hero__button-container__button'>Demo</button>
                     </Link>
                 </div>

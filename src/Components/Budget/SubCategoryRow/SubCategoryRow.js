@@ -1,17 +1,26 @@
 import React from 'react';
+import BudgetAppContext from '../../../BudgetAppContext';
 import './SubCategoryRow.css';
 
 class SubCategoryRow extends React.Component {
+    static contextType = BudgetAppContext;
+
     render() {
-        const subCategoryRows = Object.keys(this.props.subCategory).map((objectKey, index) => {
-            return (
-                <td className={'subCategoryRow__cell subCategoryRow__cell--col-' + (index + 1)} key={index}>{this.props.subCategory[objectKey]}</td>
-            );
-        });
+        const { subCategoryName, subCategorySpent, subCategoryAvailable, subCategoryId } = this.props.subCategory;
 
         return (
             <tr className='SubCategoryRow'>
-                {subCategoryRows}
+                <td className='subCategoryRow__cell '>{subCategoryName}</td>
+                <td className='subCategoryRow__cell '>
+                    <form onChange={e => {
+                        this.context.updateBudgetedAmount(e.target.value, subCategoryId, this.props.category.categoryId)
+                    }}>
+                        <label htmlFor='budgeted'></label>
+                        <input type='number' name='budgeted' id='budgeted'></input>
+                    </form>
+                </td>
+                <td className='subCategoryRow__cell subCategoryRow__cell--col-3'>{subCategorySpent}</td>
+                <td className='subCategoryRow__cell '>{subCategoryAvailable}</td>
             </tr>
         );
     }

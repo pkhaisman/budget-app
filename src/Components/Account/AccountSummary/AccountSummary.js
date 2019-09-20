@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Menu from '../../Templates/Menu/Menu';
 import AccountDropdown from '../../AccountBar/AccountDropdown/AccountDropdown';
 import './AccountSummary.css';
@@ -29,7 +29,7 @@ class AccountSummary extends React.Component {
                     <li>Cash</li>
                     <li>Balance</li>
                     <li>
-                        <Link to={'/accounts/add-transaction'}>
+                        <Link to={`/accounts/${this.props.match.params.account_id}/add-transaction`}>
                             <button>Add</button>
                         </Link>
                     </li>
@@ -40,4 +40,4 @@ class AccountSummary extends React.Component {
     }
 }
 
-export default AccountSummary;
+export default withRouter(AccountSummary);

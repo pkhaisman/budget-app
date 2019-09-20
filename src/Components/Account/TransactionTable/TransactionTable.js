@@ -1,15 +1,21 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import BudgetAppContext from '../../../BudgetAppContext';
 import TransactionRow from '../TransactionRow/TransactionRow';
 import './TransactionTable.css';
-import DATA from '../../../DATA';
 
 // lists all transactions in given account
 class TransactionTable extends React.Component {
+    static contextType = BudgetAppContext;
+
     render() {
-        const cashTransactions = DATA.accounts[2].transactions;
-        const cashTransactionRows = cashTransactions.map((cashTransaction, index) => {
-            return <TransactionRow key={index} cashTransaction={cashTransaction} />
-        });
+        const account = this.context.accounts.find(account => {
+            return account.accountId === this.props.match.params.account_id
+        })
+
+        const accountTransactionRows = account.accountTransactions.map((transaction, index) => {
+            return <TransactionRow key={index} transaction={transaction} />
+        })
 
         return (
             <table className='TransactionTable'>
@@ -24,11 +30,11 @@ class TransactionTable extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {cashTransactionRows}
+                    {accountTransactionRows}
                 </tbody>
             </table>
         );
     }
 }
 
-export default TransactionTable;
+export default withRouter(TransactionTable);

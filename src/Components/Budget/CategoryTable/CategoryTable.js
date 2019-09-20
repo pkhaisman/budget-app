@@ -1,11 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import CategoryRow from '../CategoryRow/CategoryRow';
 import './CategoryTable.css';
-import DATA from '../../../DATA';
+import BudgetAppContext from '../../../BudgetAppContext';
 
 class CategoryTable extends React.Component {
+    static contextType = BudgetAppContext;
+
     render() {
-        const categoryRows = DATA.categories.map((category, index) => {
+        const categoryRows = this.context.categories.map((category, index) => {
             return <CategoryRow key={index} category={category} />
         });
 
@@ -13,7 +16,12 @@ class CategoryTable extends React.Component {
             <table className='CategoryTable'>
                 <thead>
                     <tr>
-                        <th className='CategoryTable__cell CategoryTable__cell--col-1'>Category</th>
+                        <th className='CategoryTable__cell CategoryTable__cell--col-1'>
+                            <p>Category</p>
+                            <Link to={'budget/add-category'}>
+                                <button>+</button>
+                            </Link>
+                        </th>
                         <th className='CategoryTable__cell CategoryTable__cell--col-2'>Budgeted</th>
                         <th className='CategoryTable__cell CategoryTable__cell--col-3'>Spent</th>
                         <th className='CategoryTable__cell CategoryTable__cell--col-4'>Available</th>

@@ -3,6 +3,7 @@ import Menu from '../../Templates/Menu/Menu';
 import AccountDropdown from '../../AccountBar/AccountDropdown/AccountDropdown';
 import './BudgetSummary.css';
 
+// displays budget summary on budget page
 class BudgetSummary extends React.Component {
     constructor() {
         super();

@@ -1,39 +1,39 @@
+import uuid from 'uuid/v4';
+
 const DATA = {
     accounts: [
         {
-            accountName: 'Balance',
-            accountBalance: 1100
-        },
-        {
+            accountId: uuid(),
             accountName: 'Citizens Bank',
-            accountBalance: 1000,
-            transactions: [
+            // accountStartingBalance: 1000,
+            accountBalance: 990,
+            accountTransactions: [
                 {
                     transactionDate: '',
-                    transactionPayee: 'Ultimo Coffee House',
+                    transactionPayee: 'Reanimator',
                     transactionCategory: 'Food: Dining',
                     transactionMemo: 'Coffee',
                     transactionOutflow: 5,
                     transactionInflow: null,
-                    transactionAccount: 'Citizens Bank'
+                    // transactionAccount: 'Citizens Bank'
                 },
                 {
                     transactionDate: '',
-                    transactionPayee: 'Whole Foods',
+                    transactionPayee: 'Trader Joe`s',
                     transactionCategory: 'Food: Groceries',
                     transactionMemo: '',
                     transactionOutflow: 25,
                     transactionInflow: null,
-                    transactionAccount: 'Citizens Bank'
+                    // transactionAccount: 'Citizens Bank'
                 },
                 {
                     transactionDate: '',
-                    transaction_Payee: 'El Poquito',
+                    transaction_Payee: 'We Move',
                     transactionCategory: 'Inflow: To Be Budgeted',
                     transactionMemo: '',
                     transactionOutflow: null,
                     transactionInflow: 200,
-                    transactionAccount: 'Citizens Bank'
+                    // transactionAccount: 'Citizens Bank'
                 },
                 {
                     transactionDate: '',
@@ -42,14 +42,16 @@ const DATA = {
                     transactionMemo: 'Climbing shoes',
                     transactionOutflow: 180,
                     transactionInflow: null,
-                    transactionAccount: 'Citizens Bank'
+                    // transactionAccount: 'Citizens Bank'
                 },
             ]
         },
         {
+            accountId: uuid(),
             accountName: 'Cash',
-            accountBalance: 100,
-            transactions: [
+            // accountStartingBalance: 100,
+            accountBalance: 990,
+            accountTransactions: [
                 {
                     transactionDate: '',
                     transactionPayee: 'Ultimo Coffee House',
@@ -91,22 +93,24 @@ const DATA = {
     ],
     categories: [
         {
+            categoryId: uuid(),
             categoryName: 'Food',
-            categoryBudgeted: 100,
-            categorySpent: 50,
-            categoryAvailable: 50,
             subCategories: [
                 {
+                    subCategoryId: 1,
                     subCategoryName: 'Groceries',
-                    subCategoryBudgeted: 75,
+                    subCategoryBudgeted: 0,
                     subCategorySpent: 25,
-                    subCategoryAvailable: 50,
+                    subCategoryAvailable: -25,
+                    parentId: null
                 },
                 {
+                    subCategoryId: 2,
                     subCategoryName: 'Dining',
-                    subCategoryBudgeted: 25,
+                    subCategoryBudgeted: 0,
                     subCategorySpent: 25,
-                    subCategoryAvailable: 0,
+                    subCategoryAvailable: -25,
+                    parentId: null
                 }
             ]
         }
