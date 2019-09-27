@@ -9,11 +9,13 @@ class AccountList extends React.Component {
     static contextType = BudgetAppContext
 
     render() {
-        // const balance = this.context.accounts.map(account => account.accountStartingBalance).reduce((a, b) => a + b)
-        const balance = this.context.accounts.map(account => account.accountBalance).reduce((a, b) => a + b)
+        let balance = 0;
+        this.context.accounts.forEach(account => {
+            balance += parseInt(account.accountBalance)
+        })
 
-        const accountRows = this.context.accounts.map((account, index) => {
-            return <AccountRow key={index} account={account} />
+        const accountRows = this.context.accounts.map(a => {
+            return <AccountRow key={a.accountId} account={a} />
         });
 
         return (

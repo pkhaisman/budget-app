@@ -10,30 +10,26 @@ class CategoryRow extends React.Component {
     
     render() {
         // renders sub category rows
-        const subCategoryRows = this.props.category.subCategories.map((subCategory, index) => {
-            return (
-                <SubCategoryRow key={index} category={this.props.category} subCategory={subCategory} />
-            );
-        });
+        
+        const subCategoryRows = this.context.subCategories
+            .filter(s => s.parentCategoryId === this.props.category.categoryId)
+            .map(s => <SubCategoryRow key={s.subCategoryId} subCategory={s} />)
 
         let categoryData = {}
 
         // calculates values to display for parent category
         if (subCategoryRows.length !== 0) {
-            const budgetedArray = subCategoryRows.map(row => parseInt(row.props.subCategory.subCategoryBudgeted));
-    
-            const spentArray = subCategoryRows.map(row => {
-                return row.props.subCategory.subCategorySpent
-            });
+            let spent = 0, budgeted = 0, available = 0;
+            subCategoryRows.forEach((row) => {
+                spent += parseInt(row.props.subCategory.subCategorySpent);
+                budgeted += parseInt(row.props.subCategory.subCategoryBudgeted)
+                available += parseInt(row.props.subCategory.subCategoryAvailable)
+            })
             
-            const availableArray = subCategoryRows.map(row => {
-                return row.props.subCategory.subCategoryAvailable
-            });
-    
             categoryData = {
-                categoryBudgeted: budgetedArray.reduce((a, b) => a + b),
-                categorySpent: spentArray.reduce((a, b) => a + b),
-                categoryAvailable: availableArray.reduce((a, b) => a + b),
+                categoryBudgeted: budgeted,
+                categorySpent: spent,
+                categoryAvailable: available,
             }
         } else {
             categoryData = {

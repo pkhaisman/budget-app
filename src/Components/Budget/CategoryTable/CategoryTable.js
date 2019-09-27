@@ -8,8 +8,8 @@ class CategoryTable extends React.Component {
     static contextType = BudgetAppContext;
 
     render() {
-        const categoryRows = this.context.categories.map((category, index) => {
-            return <CategoryRow key={index} category={category} />
+        const categoryRows = this.context.categories.map(c => {
+            return <CategoryRow key={c.categoryId} category={c} />
         });
 
         return (

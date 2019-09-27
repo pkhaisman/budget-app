@@ -13,7 +13,7 @@ class SubCategoryRow extends React.Component {
                 <td className='subCategoryRow__cell '>{subCategoryName}</td>
                 <td className='subCategoryRow__cell '>
                     <form onChange={e => {
-                        this.context.updateBudgetedAmount(e.target.value, subCategoryId, this.props.category.categoryId)
+                        this.context.updateBudgetedAmount(e.target.value, subCategoryId)
                     }}>
                         <label htmlFor='budgeted'></label>
                         <input type='number' name='budgeted' id='budgeted'></input>

@@ -8,7 +8,9 @@ class AddTransactionForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            accountId: this.props.match.params.account_id,
+            transactionAccountId: this.props.match.params.account_id.length < 2
+                ? parseInt(this.props.match.params.account_id)
+                : this.props.match.params.account_id,
             transactionDate: '',
             transactionPayee: '',
             transactionCategory: '',
@@ -57,19 +59,19 @@ class AddTransactionForm extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        const { accountId,transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow } = this.state
-        console.log(this.state)
+        const { transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow } = this.state
         this.setState({
-            accountId: '',
+            transactionAccountId: 0,
             transactionDate: '',
             transactionPayee: '',
             transactionCategory: '',
             transactionMemo: '',
-            transactionOutflow: '',
-            transactionInflow: '',
+            transactionOutflow: 0,
+            transactionInflow: 0,
         })
-        this.context.addTransaction(accountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow)
-        this.props.history.push(`/accounts/${this.state.accountId}`)
+        this.context.addTransaction(transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow)
+        this.context.updateAccountBalance(transactionAccountId, transactionOutflow, transactionInflow)
+        this.props.history.push(`/accounts/${this.state.transactionAccountId}`)
     }
 
     render() {

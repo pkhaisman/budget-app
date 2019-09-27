@@ -17,7 +17,9 @@ class App extends React.Component {
         super(props)
         this.state = {
             accounts: null,
+            transactions: null,
             categories: null,
+            subCategories: null,
         }
     }
 
@@ -25,37 +27,34 @@ class App extends React.Component {
     componentDidMount() {
         this.setState({
             accounts: DATA.accounts,
+            transactions: DATA.transactions,
             categories: DATA.categories,
+            subCategories: DATA.subCategories,
         })
     }
 
-    updateBudgetedAmount = (budgetedAmount, subCategoryId, categoryId) => {
-        let categoriesClone = [
-            ...this.state.categories,
+    updateBudgetedAmount = (budgetedAmount, subCategoryId) => {
+        let subCategoriesClone = [
+            ...this.state.subCategories,
         ]
 
-        // find the subCategory to update
-        categoriesClone.forEach(category => {
-            if (category.categoryId === categoryId) {
-                category.subCategories.forEach(subCategory => {
-                    if (subCategory.subCategoryId === subCategoryId) {
-                        subCategory.subCategoryBudgeted = budgetedAmount
-                        subCategory.subCategoryAvailable = budgetedAmount - subCategory.subCategorySpent
-                    }
-                })
+        // find the subCategory and update budgeted and available fields
+        subCategoriesClone.forEach(subCategory => {
+            if (subCategory.subCategoryId === subCategoryId) {
+                subCategory.subCategoryBudgeted = budgetedAmount
+                subCategory.subCategoryAvailable = budgetedAmount - subCategory.subCategorySpent
             }
         })
 
         this.setState({
-            categories: categoriesClone
+            subCategories: subCategoriesClone
         })
     }
 
     addCategory = (categoryName) => {
         const newCategory = {
             categoryId: uuid(),
-            categoryName: categoryName,
-            subCategories: [],
+            categoryName,
         }
 
         this.setState({
@@ -66,26 +65,28 @@ class App extends React.Component {
         })
     }
 
-    addSubCategory = (subCategoryName, categoryId) => {
-        let categoriesClone = this.state.categories;
+    addSubCategory = (subCategoryName, parentId) => {
+        // some ids are numbers but converted to string, others are uuid
+        // this takes care of converting number id into type number
+        // will not be a problem once i have db
+        if (parentId.length < 2) {
+            parentId = parseInt(parentId)
+        }
+
         const newSubCategory = {
             subCategoryId: uuid(),
-            subCategoryName: subCategoryName,
+            subCategoryName,
             subCategoryBudgeted: 0,
             subCategorySpent: 0,
             subCategoryAvailable: 0,
-            parentId: categoryId,
+            parentCategoryId: parentId,
         }
 
-        // add the new subCategory to the corresponding category
-        categoriesClone.forEach((category) => {
-            if (category.categoryId === categoryId) {
-                category.subCategories.push(newSubCategory)
-            }
-        })
-
         this.setState({
-            categories: categoriesClone
+            subCategories: [
+                ...this.state.subCategories,
+                newSubCategory
+            ]
         })
     }
 
@@ -94,10 +95,7 @@ class App extends React.Component {
             accountId: uuid(),
             accountName,
             accountBalance,
-            accountTransactions: []
         }
-
-        console.log(newAccount)
 
         this.setState({
             accounts: [
@@ -107,46 +105,68 @@ class App extends React.Component {
         })
     }
 
-    addTransaction = (accountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow) => {
-        const accountsClone = this.state.accounts
+    addTransaction = (transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow) => {
+        // checks if transactionAccountId is number or uuid
+        // makes ids of the same type for strict comparison
+        // remove when db
+        if (transactionAccountId < 2) {
+            transactionAccountId = parseInt(transactionAccountId)
+        } 
+
         const newTransaction = {
+            transactionId: uuid(),
             transactionDate,
             transactionPayee,
             transactionCategory,
             transactionMemo,
             transactionOutflow,
             transactionInflow,
+            transactionAccountId,
         }
 
-        // add transaction to corresponding account
-        accountsClone.forEach(account => {
-            if (account.accountId === accountId) {
-                account.accountTransactions.push(newTransaction)
-                const transactionBalance = account.accountTransactions
-                    .map(transaction => {
-                        return transaction.transactionOutflow ? -Math.abs(transaction.transactionOutflow) : transaction.transactionInflow
-                    })
-                    .reduce((a, b) => a + b)
-                account.accountBalance = account.accountBalance + transactionBalance
+        this.setState({
+            transactions: [
+                ...this.state.transactions,
+                newTransaction
+            ]
+        })
+    }
+
+    updateAccountBalance = (accountId, transactionOutflow, transactionInflow) => {
+        const accountsClone = this.state.accounts
+
+        accountsClone.forEach(a => {
+            // check if id is string or number
+            if (a.accountId.length < 2) {
+                a.accountId = parseInt(accountId)
+            } 
+
+            if (a.accountId === accountId) {
+                transactionOutflow
+                    ? a.accountBalance -= transactionOutflow
+                    : a.accountBalance += transactionInflow
             }
         })
 
-        console.log(accountsClone)
-
         this.setState({
-            accounts: accountsClone
+            accounts: [
+                ...accountsClone
+            ]
         })
     }
 
     render() {
         const contextValue = {
             accounts: this.state.accounts,
+            transactions: this.state.transactions,
             categories: this.state.categories,
+            subCategories: this.state.subCategories,
             addAccount: this.addAccount,
             addCategory: this.addCategory,
             addTransaction: this.addTransaction,
             addSubCategory: this.addSubCategory,
             updateBudgetedAmount: this.updateBudgetedAmount,
+            updateAccountBalance: this.updateAccountBalance,
         }
 
         // TODO: render loading page
