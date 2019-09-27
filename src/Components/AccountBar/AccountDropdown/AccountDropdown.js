@@ -3,7 +3,7 @@ import './AccountDropdown.css';
 import BudgetNavButton from '../../AccountBar/BudgetNavButton/BudgetNavButton';
 import AccountRow from '../../AccountBar/AccountRow/AccountRow';
 import AddAccountButton from '../../AccountBar/AddAccountButton/AddAccountButton';
-import DATA from '../../../DATA';
+import DATA from '../../../DATA.js';
 
 class AccountDropdown extends React.Component {
     render() {

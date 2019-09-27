@@ -2,7 +2,7 @@ import React from                       'react';
 import uuid from                        'uuid/v4';
 import BudgetAppContext from            './BudgetAppContext.js';
 import { Route, BrowserRouter } from    'react-router-dom';
-import DATA from                        './DATA'
+import DATA from                        './DATA.js'
 import LoginPage from                   './Components/Pages/LoginPage/LoginPage';
 import BudgetPage from                   './Components/Pages/BudgetPage/BudgetPage';
 import SignUpPage from                  './Components/Pages/SignUpPage/SignUpPage';

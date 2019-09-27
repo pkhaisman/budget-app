@@ -1,5 +1,3 @@
-import uuid from 'uuid/v4';
-
 const DATA = {
     accounts: [
         {
