@@ -1,29 +1,41 @@
 import React from 'react';
 import BudgetAppContext from '../../../BudgetAppContext';
-import './SubCategoryRow.css';
+import './SubcategoryRow.css';
 
-class SubCategoryRow extends React.Component {
+class SubcategoryRow extends React.Component {
     static contextType = BudgetAppContext;
 
     render() {
-        const { subCategoryName, subCategorySpent, subCategoryAvailable, subCategoryId } = this.props.subCategory;
+        const { subcategoryName, subcategorySpent, subcategoryAvailable, subcategoryId } = this.props.subcategory;
+        let spent = 0
+
+        this.context.transactions.forEach(t => {
+            if (t.transactionCategory === subcategoryName) {
+                t.transactionOutflow 
+                    ? spent -= t.transactionOutflow
+                    : spent += t.transactionInflow
+            }
+        })
 
         return (
-            <tr className='SubCategoryRow'>
-                <td className='subCategoryRow__cell '>{subCategoryName}</td>
-                <td className='subCategoryRow__cell '>
+            <tr className='SubcategoryRow'>
+                <td className='subcategoryRow__cell '>
+                    {subcategoryName}
+                    <button onClick={e => this.context.deleteSubcategory(subcategoryId)}>x</button>
+                </td>
+                <td className='subcategoryRow__cell '>
                     <form onChange={e => {
-                        this.context.updateBudgetedAmount(e.target.value, subCategoryId)
+                        this.context.updateBudgetedAmount(e.target.value, subcategoryId)
                     }}>
                         <label htmlFor='budgeted'></label>
                         <input type='number' name='budgeted' id='budgeted'></input>
                     </form>
                 </td>
-                <td className='subCategoryRow__cell subCategoryRow__cell--col-3'>{subCategorySpent}</td>
-                <td className='subCategoryRow__cell '>{subCategoryAvailable}</td>
+                <td className='subcategoryRow__cell subcategoryRow__cell--col-3'>{spent}</td>
+                <td className='subcategoryRow__cell '>{subcategoryAvailable}</td>
             </tr>
         );
     }
 }
 
-export default SubCategoryRow;
+export default SubcategoryRow;

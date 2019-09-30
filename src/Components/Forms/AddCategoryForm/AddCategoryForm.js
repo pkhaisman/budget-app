@@ -27,12 +27,8 @@ class AddCategoryForm extends React.Component {
         this.setState({
             categoryName: '',
         })
-
-        // checks if adding a category or a subCategory via params.category_id)
-        category_id 
-            ? this.context.addSubCategory(categoryName, category_id)
-            : this.context.addCategory(categoryName)
-
+       
+        this.context.addCategory(categoryName, category_id)
         this.props.history.push(`/budget`);
     }
 

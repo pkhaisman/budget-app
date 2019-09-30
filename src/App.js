@@ -2,100 +2,105 @@ import React from                       'react';
 import uuid from                        'uuid/v4';
 import BudgetAppContext from            './BudgetAppContext.js';
 import { Route, BrowserRouter } from    'react-router-dom';
-import DATA from                        './DATA.js'
-import LoginPage from                   './Components/Pages/LoginPage/LoginPage';
-import BudgetPage from                   './Components/Pages/BudgetPage/BudgetPage';
-import SignUpPage from                  './Components/Pages/SignUpPage/SignUpPage';
-import LandingPage from                 './Components/Pages/LandingPage/LandingPage';
-import AccountPage from                 './Components/Pages/AccountPage/AccountPage';
-import AddAccountPage from              './Components/Pages/AddAccountPage/AddAccountPage';
-import AddCategoryPage from             './Components/Pages/AddCategoryPage/AddCategoryPage';
-import AddTransactionPage from          './Components/Pages/AddTransactionPage/AddTransactionPage';
+import ApiService from                  './services/api-service'
+import LoginPage from                   './components/Pages/LoginPage/LoginPage';
+import BudgetPage from                   './components/Pages/BudgetPage/BudgetPage';
+import SignUpPage from                  './components/Pages/SignUpPage/SignUpPage';
+import LandingPage from                 './components/Pages/LandingPage/LandingPage';
+import AccountPage from                 './components/Pages/AccountPage/AccountPage';
+import AddAccountPage from              './components/Pages/AddAccountPage/AddAccountPage';
+import AddCategoryPage from             './components/Pages/AddCategoryPage/AddCategoryPage';
+import AddTransactionPage from          './components/Pages/AddTransactionPage/AddTransactionPage';
 
 class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            accounts: null,
-            transactions: null,
-            categories: null,
-            subCategories: null,
+            accounts: '',
+            transactions: '',
+            categories: '',
+            subcategories: '',
         }
     }
 
     // set state with DATA json
     componentDidMount() {
-        this.setState({
-            accounts: DATA.accounts,
-            transactions: DATA.transactions,
-            categories: DATA.categories,
-            subCategories: DATA.subCategories,
-        })
+        Promise.all([
+            ApiService.getAccounts(),
+            ApiService.getTransactions(),
+            ApiService.getCategories(),
+            ApiService.getSubcategories(),
+        ])
+            .then(([ accounts, transactions, categories, subcategories ]) => {
+                this.setState({ accounts, transactions, categories, subcategories })
+            })
     }
-
-    updateBudgetedAmount = (budgetedAmount, subCategoryId) => {
-        let subCategoriesClone = [
-            ...this.state.subCategories,
+    updateBudgetedAmount = (budgetedAmount, subcategoryId) => {
+        let subcategoriesClone = [
+            ...this.state.subcategories,
         ]
 
         // find the subCategory and update budgeted and available fields
-        subCategoriesClone.forEach(subCategory => {
-            if (subCategory.subCategoryId === subCategoryId) {
-                subCategory.subCategoryBudgeted = budgetedAmount
-                subCategory.subCategoryAvailable = budgetedAmount - subCategory.subCategorySpent
+        subcategoriesClone.forEach(subcategory => {
+            if (subcategory.subcategoryId === subcategoryId) {
+                subcategory.subcategoryBudgeted = budgetedAmount
+                subcategory.subcategoryAvailable = budgetedAmount - subcategory.subcategorySpent
             }
         })
 
         this.setState({
-            subCategories: subCategoriesClone
+            subcategories: subcategoriesClone
         })
     }
+    addCategory = (categoryName, parentCategoryId) => {
+        if (!parentCategoryId) {
+            const newCategory = {
+                categoryId: uuid(),
+                categoryName,
+            }
+            
+            ApiService.postCategory(categoryName, newCategory.categoryId)
+    
+            this.setState({
+                categories: [
+                    ...this.state.categories,
+                    newCategory
+                ]
+            })
+        } else {
+            if (parentCategoryId.length < 2) {
+                parentCategoryId = parseInt(parentCategoryId)
+            }
+    
+            const newSubcategory = {
+                subcategoryId: uuid(),
+                subcategoryName: categoryName,
+                subcategoryBudgeted: 0,
+                subcategorySpent: 0,
+                subcategoryAvailable: 0,
+                parentCategoryId: parentCategoryId,
+            }
 
-    addCategory = (categoryName) => {
-        const newCategory = {
-            categoryId: uuid(),
-            categoryName,
+            const { subcategoryId, subcategoryBudgeted, subcategorySpent, subcategoryAvailable } = newSubcategory
+
+            ApiService.postSubcategory(subcategoryId, categoryName, parentCategoryId, subcategoryBudgeted, subcategorySpent, subcategoryAvailable)
+    
+            this.setState({
+                subcategories: [
+                    ...this.state.subcategories,
+                    newSubcategory
+                ]
+            })
         }
-
-        this.setState({
-            categories: [
-                ...this.state.categories,
-                newCategory
-            ]
-        })
     }
-
-    addSubCategory = (subCategoryName, parentId) => {
-        // some ids are numbers but converted to string, others are uuid
-        // this takes care of converting number id into type number
-        // will not be a problem once i have db
-        if (parentId.length < 2) {
-            parentId = parseInt(parentId)
-        }
-
-        const newSubCategory = {
-            subCategoryId: uuid(),
-            subCategoryName,
-            subCategoryBudgeted: 0,
-            subCategorySpent: 0,
-            subCategoryAvailable: 0,
-            parentCategoryId: parentId,
-        }
-
-        this.setState({
-            subCategories: [
-                ...this.state.subCategories,
-                newSubCategory
-            ]
-        })
-    }
-
     addAccount = (accountName, accountBalance) => {
         const newAccount = {
             accountId: uuid(),
             accountName,
             accountBalance,
         }
+
+        ApiService.postAccount(newAccount.accountId, accountName, accountBalance)
 
         this.setState({
             accounts: [
@@ -104,7 +109,6 @@ class App extends React.Component {
             ]
         })
     }
-
     addTransaction = (transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow) => {
         // checks if transactionAccountId is number or uuid
         // makes ids of the same type for strict comparison
@@ -124,6 +128,8 @@ class App extends React.Component {
             transactionAccountId,
         }
 
+        ApiService.postTransaction(newTransaction.transactionId, transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow)
+
         this.setState({
             transactions: [
                 ...this.state.transactions,
@@ -131,7 +137,6 @@ class App extends React.Component {
             ]
         })
     }
-
     updateAccountBalance = (accountId, transactionOutflow, transactionInflow) => {
         const accountsClone = this.state.accounts
 
@@ -154,19 +159,95 @@ class App extends React.Component {
             ]
         })
     }
+    deleteCategory = (categoryId) => {
+        const { categories, subcategories } = this.state
+        // delete from state
+        // delete subcategories
+        const subcategoriesToDelete = subcategories.filter(s => s.parentCategoryId === categoryId)
+        subcategoriesToDelete.forEach(s => {
+            this.deleteSubcategory(s.subcategoryId)
+        })
+        // delete category
+        const categoriesClone = categories
+        const categoryIndex = categoriesClone.findIndex(c => c.categoryId === categoryId)
+        categoriesClone.splice(categoryIndex, 1)
+
+        ApiService.deleteCategory(categoryId)
+
+        this.setState({
+            categories: [
+                ...categoriesClone
+            ]
+        })
+    }
+    deleteSubcategory = (subcategoryId) => {
+        const { subcategories } = this.state
+
+        const subcategoriesClone = subcategories
+        const subcategoryIndex = subcategories.findIndex(s => s.subcategoryId === subcategoryId)
+        subcategoriesClone.splice(subcategoryIndex, 1)
+
+        ApiService.deleteSubcategory(subcategoryId)
+
+        this.setState({
+            subcategories: [
+                ...subcategoriesClone
+            ]
+        })
+        
+    }
+    deleteTransaction = (transactionId) => {
+        const { transactions } = this.state
+
+        const transactionsClone = transactions
+        const transactionIndex = transactions.findIndex(t => t.transactionId === transactionId)
+        transactionsClone.splice(transactionIndex, 1)
+
+        ApiService.deleteTransaction(transactionId)
+
+        this.setState({
+            transactions: [
+                ...transactionsClone
+            ]
+        })
+    }
+    deleteAccount = (accountId) => {
+        const { accounts, transactions } = this.state
+
+        const transactionsToDelete = transactions.filter(t => t.transactionAccountId === accountId)
+        transactionsToDelete.forEach(t => {
+            this.deleteTransaction(t.transactionId)
+        })
+
+        const accountsClone = accounts
+        const accountIndex = accountsClone.findIndex(a => a.accountId === accountId)
+        accountsClone.splice(accountIndex, 1)
+
+        ApiService.deleteAccount(accountId)
+
+        this.setState({
+            accounts: [
+                ...accountsClone
+            ]
+        })
+    }
 
     render() {
         const contextValue = {
             accounts: this.state.accounts,
             transactions: this.state.transactions,
             categories: this.state.categories,
-            subCategories: this.state.subCategories,
+            subcategories: this.state.subcategories,
             addAccount: this.addAccount,
             addCategory: this.addCategory,
             addTransaction: this.addTransaction,
-            addSubCategory: this.addSubCategory,
+            addSubcategory: this.addSubcategory,
             updateBudgetedAmount: this.updateBudgetedAmount,
             updateAccountBalance: this.updateAccountBalance,
+            deleteSubcategory: this.deleteSubcategory,
+            deleteCategory: this.deleteCategory,
+            deleteTransaction: this.deleteTransaction,
+            deleteAccount: this.deleteAccount,
         }
 
         // TODO: render loading page

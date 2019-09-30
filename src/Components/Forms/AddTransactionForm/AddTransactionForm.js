@@ -60,6 +60,7 @@ class AddTransactionForm extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault()
         const { transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow } = this.state
+                
         this.setState({
             transactionAccountId: 0,
             transactionDate: '',

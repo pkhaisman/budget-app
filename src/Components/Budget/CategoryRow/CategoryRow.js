@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import BudgetAppContext from '../../../BudgetAppContext';
-import SubCategoryRow from '../SubCategoryRow/SubCategoryRow';
+import SubcategoryRow from '../SubcategoryRow/SubcategoryRow';
 import './CategoryRow.css';
 
 // displays parent category and sub categories
@@ -9,21 +9,23 @@ class CategoryRow extends React.Component {
     static contextType = BudgetAppContext;
     
     render() {
-        // renders sub category rows
+        const { categoryId, categoryName } = this.props.category
         
-        const subCategoryRows = this.context.subCategories
-            .filter(s => s.parentCategoryId === this.props.category.categoryId)
-            .map(s => <SubCategoryRow key={s.subCategoryId} subCategory={s} />)
-
-        let categoryData = {}
-
+        // renders sub category rows
+        const subcategoryRows = this.context.subcategories
+            .filter(s => {
+                return s.parentCategoryId === categoryId
+            })
+            .map(s => <SubcategoryRow key={s.subcategoryId} subcategory={s} />)
+        
         // calculates values to display for parent category
-        if (subCategoryRows.length !== 0) {
+        let categoryData = {}
+        if (subcategoryRows.length !== 0) {
             let spent = 0, budgeted = 0, available = 0;
-            subCategoryRows.forEach((row) => {
-                spent += parseInt(row.props.subCategory.subCategorySpent);
-                budgeted += parseInt(row.props.subCategory.subCategoryBudgeted)
-                available += parseInt(row.props.subCategory.subCategoryAvailable)
+            subcategoryRows.forEach((row) => {
+                spent += parseInt(row.props.subcategory.subcategorySpent);
+                budgeted += parseInt(row.props.subcategory.subcategoryBudgeted)
+                available += parseInt(row.props.subcategory.subcategoryAvailable)
             })
             
             categoryData = {
@@ -43,16 +45,17 @@ class CategoryRow extends React.Component {
             <tbody>
                 <tr className='CategoryRow'>
                     <td className='CategoryRow__cell CategoryRow__cell--col-1'>
-                        {this.props.category.categoryName}
-                        <Link to={`/budget/${this.props.category.categoryId}/add-sub-category`}>
+                        {categoryName}
+                        <Link to={`/budget/${categoryId}/add-sub-category`}>
                             <button>+</button>
                         </Link>
+                        <button onClick={e => this.context.deleteCategory(categoryId)}>x</button>
                     </td>
                     <td className='CategoryRow__cell CategoryRow__cell--col-2'>{categoryData.categoryBudgeted}</td>
                     <td className='CategoryRow__cell CategoryRow__cell--col-3'>{categoryData.categorySpent}</td>
                     <td className='CategoryRow__cell CategoryRow__cell--col-4'>{categoryData.categoryAvailable}</td>
                 </tr>
-                {subCategoryRows}
+                {subcategoryRows}
             </tbody>
         );
     }

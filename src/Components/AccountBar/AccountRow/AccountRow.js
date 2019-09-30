@@ -6,12 +6,15 @@ import './AccountRow.css';
 class AccountRow extends React.Component {
     static contextType = BudgetAppContext
     render() {
+        const { accountId, accountName, accountBalance } = this.props.account
+        
         return (
             <div className='AccountRow'>
-                <Link to={`/accounts/${this.props.account.accountId}`}>
-                    <p>{this.props.account.accountName}</p>
+                <button onClick={e => this.context.deleteAccount(accountId)}>x</button>
+                <Link to={`/accounts/${accountId}`}>
+                    <p>{accountName}</p>
                 </Link>
-                    <p>{this.props.account.accountBalance}</p>
+                    <p>{accountBalance}</p>
             </div>
         );
     }

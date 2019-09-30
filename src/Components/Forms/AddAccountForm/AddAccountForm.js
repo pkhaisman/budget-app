@@ -30,10 +30,12 @@ class AddAccountForm extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault()
         const { accountName, accountBalance } = this.state
+
         this.setState({
             accountName: '',
             accountBalance: ''
         })
+        
         this.context.addAccount(accountName, parseInt(accountBalance))
         this.props.history.push('/budget')
     }

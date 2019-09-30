@@ -11,6 +11,10 @@ const BudgetAppContext = React.createContext({
     addSubCategory: () => {},
     updateBudgetedAmount: () => {},
     updateAccountBalance: () => {},
+    deleteSubcategory: () => {},
+    deleteCategory: () => {},
+    deleteTransaction: () => {},
+    deleteAccount: () => {},
 });
 
 
