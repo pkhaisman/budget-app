@@ -6,16 +6,7 @@ class SubcategoryRow extends React.Component {
     static contextType = BudgetAppContext;
 
     render() {
-        const { subcategoryName, subcategorySpent, subcategoryAvailable, subcategoryId } = this.props.subcategory;
-        let spent = 0
-
-        this.context.transactions.forEach(t => {
-            if (t.transactionCategory === subcategoryName) {
-                t.transactionOutflow 
-                    ? spent -= t.transactionOutflow
-                    : spent += t.transactionInflow
-            }
-        })
+        const { subcategoryName, subcategorySpent, subcategoryBudgeted, subcategoryId } = this.props.subcategory;
 
         return (
             <tr className='SubcategoryRow'>
@@ -23,16 +14,18 @@ class SubcategoryRow extends React.Component {
                     {subcategoryName}
                     <button onClick={e => this.context.deleteSubcategory(subcategoryId)}>x</button>
                 </td>
+
+
                 <td className='subcategoryRow__cell '>
-                    <form onChange={e => {
-                        this.context.updateBudgetedAmount(e.target.value, subcategoryId)
-                    }}>
-                        <label htmlFor='budgeted'></label>
-                        <input type='number' name='budgeted' id='budgeted'></input>
-                    </form>
+                    <label htmlFor='budgeted'></label>
+                    <input 
+                        type='number' name='budgeted' id='budgeted' value={subcategoryBudgeted}
+                        onChange={e => this.context.updateBudgetedAmount(e.target.value, subcategoryId)}></input>
                 </td>
-                <td className='subcategoryRow__cell subcategoryRow__cell--col-3'>{spent}</td>
-                <td className='subcategoryRow__cell '>{subcategoryAvailable}</td>
+
+
+                <td className='subcategoryRow__cell subcategoryRow__cell--col-3'>{subcategorySpent}</td>
+                <td className='subcategoryRow__cell '>{parseInt(subcategoryBudgeted) + parseInt(subcategorySpent)}</td>
             </tr>
         );
     }

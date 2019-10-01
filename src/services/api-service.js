@@ -51,7 +51,7 @@ const ApiService = {
         })
             .then(res => res.json())
     },
-    postTransaction(transactionId, transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow) {
+    postTransaction(transactionId, transactionSubcategoryId, transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow) {
         return fetch(`${config.API_ENDPOINT}/transactions`, {
             method: 'POST',
             headers: {
@@ -60,6 +60,7 @@ const ApiService = {
             body: JSON.stringify({
                 transactionId,
                 transactionAccountId, 
+                transactionSubcategoryId,
                 transactionDate, 
                 transactionPayee, 
                 transactionCategory, 
@@ -131,7 +132,7 @@ const ApiService = {
                 'content-type': 'application/json'
             }
         })
-    }
+    },
 }
 
 export default ApiService

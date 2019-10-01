@@ -6,7 +6,14 @@ class TransactionRow extends React.Component {
     static contextType = BudgetAppContext
     
     render() {
-        const { transactionId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow } = this.props.transaction;
+        const { transactionId, transactionDate, transactionPayee, transactionMemo, transactionOutflow, transactionInflow, transactionSubcategoryId } = this.props.transaction;
+        let transactionCategory
+        this.context.subcategories.forEach(s => {
+            if (s.subcategoryId === transactionSubcategoryId) {
+                transactionCategory = s.subcategoryName
+            }
+        })
+
         return (
             <tr className='TransactionRow'>
                 <td className='TransactionRow__cell TransactionRow__cell--no-right-margin'><button onClick={e => this.context.deleteTransaction(transactionId)}>x</button></td>

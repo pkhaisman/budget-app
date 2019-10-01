@@ -1,7 +1,7 @@
 import React from                       'react';
+import { Route, BrowserRouter } from    'react-router-dom';
 import uuid from                        'uuid/v4';
 import BudgetAppContext from            './BudgetAppContext.js';
-import { Route, BrowserRouter } from    'react-router-dom';
 import ApiService from                  './services/api-service'
 import LoginPage from                   './components/Pages/LoginPage/LoginPage';
 import BudgetPage from                   './components/Pages/BudgetPage/BudgetPage';
@@ -17,8 +17,8 @@ class App extends React.Component {
         super(props)
         this.state = {
             accounts: '',
-            transactions: '',
             categories: '',
+            transactions: '',
             subcategories: '',
         }
     }
@@ -35,16 +35,15 @@ class App extends React.Component {
                 this.setState({ accounts, transactions, categories, subcategories })
             })
     }
-    updateBudgetedAmount = (budgetedAmount, subcategoryId) => {
-        let subcategoriesClone = [
-            ...this.state.subcategories,
-        ]
+
+    updateBudgetedAmount =  (budgetedAmount, subcategoryId) => {
+        const subcategoriesClone = this.state.subcategories
 
         // find the subCategory and update budgeted and available fields
-        subcategoriesClone.forEach(subcategory => {
-            if (subcategory.subcategoryId === subcategoryId) {
-                subcategory.subcategoryBudgeted = budgetedAmount
-                subcategory.subcategoryAvailable = budgetedAmount - subcategory.subcategorySpent
+        subcategoriesClone.forEach(s => {
+            if (s.subcategoryId === subcategoryId) {
+                s.subcategoryBudgeted = budgetedAmount
+                s.subcategoryAvailable = parseInt(s.subcategorySpent) + parseInt(budgetedAmount)
             }
         })
 
@@ -52,7 +51,24 @@ class App extends React.Component {
             subcategories: subcategoriesClone
         })
     }
-    addCategory = (categoryName, parentCategoryId) => {
+    updateSpentAmount = (outflow, inflow, subcategoryId) => {
+        const subcategoriesClone = this.state.subcategories
+
+        subcategoriesClone.forEach(s => {
+            if (s.subcategoryId === subcategoryId) {
+                if (outflow) {
+                    s.subcategorySpent -= outflow
+                } else if (inflow) {
+                    s.subcategorySpent += inflow
+                }
+            }
+        })
+
+        this.setState({
+            subcategories: subcategoriesClone
+        })
+    }
+    addCategory =           (categoryName, parentCategoryId) => {
         if (!parentCategoryId) {
             const newCategory = {
                 categoryId: uuid(),
@@ -93,7 +109,7 @@ class App extends React.Component {
             })
         }
     }
-    addAccount = (accountName, accountBalance) => {
+    addAccount =            (accountName, accountBalance) => {
         const newAccount = {
             accountId: uuid(),
             accountName,
@@ -109,7 +125,7 @@ class App extends React.Component {
             ]
         })
     }
-    addTransaction = (transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow) => {
+    addTransaction =        (transactionAccountId, transactionSubcategoryId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow) => {
         // checks if transactionAccountId is number or uuid
         // makes ids of the same type for strict comparison
         // remove when db
@@ -119,6 +135,7 @@ class App extends React.Component {
 
         const newTransaction = {
             transactionId: uuid(),
+            transactionSubcategoryId,
             transactionDate,
             transactionPayee,
             transactionCategory,
@@ -128,7 +145,7 @@ class App extends React.Component {
             transactionAccountId,
         }
 
-        ApiService.postTransaction(newTransaction.transactionId, transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow)
+        ApiService.postTransaction(newTransaction.transactionId, transactionSubcategoryId, transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow)
 
         this.setState({
             transactions: [
@@ -137,7 +154,7 @@ class App extends React.Component {
             ]
         })
     }
-    updateAccountBalance = (accountId, transactionOutflow, transactionInflow) => {
+    updateAccountBalance =  (accountId, transactionOutflow, transactionInflow) => {
         const accountsClone = this.state.accounts
 
         accountsClone.forEach(a => {
@@ -159,7 +176,7 @@ class App extends React.Component {
             ]
         })
     }
-    deleteCategory = (categoryId) => {
+    deleteCategory =        (categoryId) => {
         const { categories, subcategories } = this.state
         // delete from state
         // delete subcategories
@@ -180,7 +197,7 @@ class App extends React.Component {
             ]
         })
     }
-    deleteSubcategory = (subcategoryId) => {
+    deleteSubcategory =     (subcategoryId) => {
         const { subcategories } = this.state
 
         const subcategoriesClone = subcategories
@@ -196,7 +213,7 @@ class App extends React.Component {
         })
         
     }
-    deleteTransaction = (transactionId) => {
+    deleteTransaction =     (transactionId) => {
         const { transactions } = this.state
 
         const transactionsClone = transactions
@@ -211,7 +228,7 @@ class App extends React.Component {
             ]
         })
     }
-    deleteAccount = (accountId) => {
+    deleteAccount =         (accountId) => {
         const { accounts, transactions } = this.state
 
         const transactionsToDelete = transactions.filter(t => t.transactionAccountId === accountId)
@@ -234,20 +251,22 @@ class App extends React.Component {
 
     render() {
         const contextValue = {
-            accounts: this.state.accounts,
-            transactions: this.state.transactions,
-            categories: this.state.categories,
-            subcategories: this.state.subcategories,
-            addAccount: this.addAccount,
-            addCategory: this.addCategory,
-            addTransaction: this.addTransaction,
-            addSubcategory: this.addSubcategory,
-            updateBudgetedAmount: this.updateBudgetedAmount,
-            updateAccountBalance: this.updateAccountBalance,
-            deleteSubcategory: this.deleteSubcategory,
-            deleteCategory: this.deleteCategory,
-            deleteTransaction: this.deleteTransaction,
-            deleteAccount: this.deleteAccount,
+            accounts:               this.state.accounts,
+            categories:             this.state.categories,
+            transactions:           this.state.transactions,
+            subcategories:          this.state.subcategories,
+
+            addAccount:             this.addAccount,
+            addCategory:            this.addCategory,
+            deleteAccount:          this.deleteAccount,
+            deleteCategory:         this.deleteCategory,
+            addTransaction:         this.addTransaction,
+            addSubcategory:         this.addSubcategory,
+            deleteSubcategory:      this.deleteSubcategory,
+            deleteTransaction:      this.deleteTransaction,
+            updateSpentAmount:      this.updateSpentAmount,
+            updateBudgetedAmount:   this.updateBudgetedAmount,
+            updateAccountBalance:   this.updateAccountBalance,
         }
 
         // TODO: render loading page
@@ -264,8 +283,8 @@ class App extends React.Component {
                             component={LandingPage} />
                         <Route path='/login'                    
                             component={LoginPage} />
-                        <Route path='/budget'                   
-                            exact 
+                        <Route path='/budget/:year_month'                   
+                            // exact 
                             component={BudgetPage} />
                         <Route path='/signup'                   
                             component={SignUpPage} />
