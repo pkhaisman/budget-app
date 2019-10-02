@@ -27,6 +27,20 @@ const ApiService = {
             }
         })
             .then(res => res.json())
+            .then(transactions =>
+                transactions.map(t => {
+                    return {
+                        transactionId: t.id,
+                        transactionDate: t.date,
+                        transactionPayee: t.payee,
+                        transactionMemo: t.memo,
+                        transactionOutflow: t.outflow,
+                        transactionInflow: t.inflow,
+                        transactionAccountId: t.account_id,
+                        transactionSubcategoryId: t.subcategory_id,
+                    }
+                })
+            )
     },
     getCategories() {
         return fetch(`${config.API_ENDPOINT}/categories`, {
@@ -36,6 +50,14 @@ const ApiService = {
             }
         })
             .then(res => res.json())
+            .then(categories => 
+                categories.map(c => {
+                    return {
+                        categoryId: c.id,
+                        categoryName: c.name
+                    }
+                })    
+            )
     },
     getSubcategories() {
         return fetch(`${config.API_ENDPOINT}/subcategories`, {
@@ -45,6 +67,17 @@ const ApiService = {
             },
         })
             .then(res => res.json())
+            .then(subcategories =>
+                subcategories.map(s => {
+                    return {
+                        subcategoryId: s.id,
+                        subcategoryName: s.name,
+                        subcategoryBudgeted: s.budgeted,
+                        subcategorySpent: s.spent,
+                        parentCategoryId: s.category_id
+                    }
+                })    
+            )
     },
     postAccount(accountId, accountName, accountBalance) {
         return fetch(`${config.API_ENDPOINT}/accounts`, {
