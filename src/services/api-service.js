@@ -9,6 +9,15 @@ const ApiService = {
             }
         })
             .then(res => res.json())
+            .then(accounts => 
+                accounts.map(a => {
+                    return {
+                        accountId: a.id,
+                        accountName: a.name,
+                        accountBalance: a.balance
+                    }
+                })
+            )
     },
     getTransactions() {
         return fetch(`${config.API_ENDPOINT}/transactions`, {

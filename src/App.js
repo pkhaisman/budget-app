@@ -36,7 +36,7 @@ class App extends React.Component {
             })
     }
 
-    updateBudgetedAmount =  (budgetedAmount, subcategoryId) => {
+    updateBudgetedAmount = (budgetedAmount, subcategoryId) => {
         const subcategoriesClone = this.state.subcategories
 
         // find the subCategory and update budgeted and available fields
@@ -68,7 +68,7 @@ class App extends React.Component {
             subcategories: subcategoriesClone
         })
     }
-    addCategory =           (categoryName, parentCategoryId) => {
+    addCategory = (categoryName, parentCategoryId) => {
         if (!parentCategoryId) {
             const newCategory = {
                 categoryId: uuid(),
@@ -109,7 +109,7 @@ class App extends React.Component {
             })
         }
     }
-    addAccount =            (accountName, accountBalance) => {
+    addAccount = (accountName, accountBalance) => {
         const newAccount = {
             accountId: uuid(),
             accountName,
@@ -125,7 +125,7 @@ class App extends React.Component {
             ]
         })
     }
-    addTransaction =        (transactionAccountId, transactionSubcategoryId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow) => {
+    addTransaction = (transactionAccountId, transactionSubcategoryId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow) => {
         // checks if transactionAccountId is number or uuid
         // makes ids of the same type for strict comparison
         // remove when db
@@ -154,7 +154,7 @@ class App extends React.Component {
             ]
         })
     }
-    updateAccountBalance =  (accountId, transactionOutflow, transactionInflow) => {
+    updateAccountBalance = (accountId, transactionOutflow, transactionInflow) => {
         const accountsClone = this.state.accounts
 
         accountsClone.forEach(a => {
@@ -176,7 +176,7 @@ class App extends React.Component {
             ]
         })
     }
-    deleteCategory =        (categoryId) => {
+    deleteCategory = (categoryId) => {
         const { categories, subcategories } = this.state
         // delete from state
         // delete subcategories
@@ -197,7 +197,7 @@ class App extends React.Component {
             ]
         })
     }
-    deleteSubcategory =     (subcategoryId) => {
+    deleteSubcategory = (subcategoryId) => {
         const { subcategories } = this.state
 
         const subcategoriesClone = subcategories
@@ -213,7 +213,7 @@ class App extends React.Component {
         })
         
     }
-    deleteTransaction =     (transactionId) => {
+    deleteTransaction = (transactionId) => {
         const { transactions } = this.state
 
         const transactionsClone = transactions
@@ -228,7 +228,7 @@ class App extends React.Component {
             ]
         })
     }
-    deleteAccount =         (accountId) => {
+    deleteAccount = (accountId) => {
         const { accounts, transactions } = this.state
 
         const transactionsToDelete = transactions.filter(t => t.transactionAccountId === accountId)
@@ -283,8 +283,8 @@ class App extends React.Component {
                             component={LandingPage} />
                         <Route path='/login'                    
                             component={LoginPage} />
-                        <Route path='/budget/:year_month'                   
-                            // exact 
+                        <Route path='/budget'                   
+                            exact 
                             component={BudgetPage} />
                         <Route path='/signup'                   
                             component={SignUpPage} />
