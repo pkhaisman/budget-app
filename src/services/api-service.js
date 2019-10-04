@@ -19,8 +19,11 @@ const ApiService = {
                 })
             )
     },
-    getTransactions() {
-        return fetch(`${config.API_ENDPOINT}/transactions`, {
+    getTransactions(month, year) {
+        // add query after transactions for month year
+        return fetch(`${config.API_ENDPOINT}/transactions
+
+        `, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -99,25 +102,35 @@ const ApiService = {
                 }
             })
     },
-    postTransaction(transactionId, transactionSubcategoryId, transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow) {
+    postTransaction(date, payee, memo, outflow, inflow, account_id, subcategory_id) {
         return fetch(`${config.API_ENDPOINT}/transactions`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                transactionId,
-                transactionAccountId, 
-                transactionSubcategoryId,
-                transactionDate, 
-                transactionPayee, 
-                transactionCategory, 
-                transactionMemo, 
-                transactionOutflow, 
-                transactionInflow
+                date,
+                payee,
+                memo,
+                outflow,
+                inflow,
+                account_id,
+                subcategory_id
             })
         })
             .then(res => res.json())
+            .then(transaction => {
+                return {
+                    transactionId: transaction.id,
+                    transactionDate: transaction.date,
+                    transactionPayee: transaction.payee,
+                    transactionMemo: transaction.memo,
+                    transactionOutflow: transaction.outflow,
+                    transactionInflow: transaction.inflow,
+                    transactionAccountId: transaction.account_id,
+                    transactionSubcategoryId: transaction.subcategory_id
+                }
+            })
     },
     postCategory(name) {
         return fetch(`${config.API_ENDPOINT}/categories`, {

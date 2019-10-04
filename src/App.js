@@ -1,6 +1,5 @@
 import React from                       'react';
 import { Route, BrowserRouter } from    'react-router-dom';
-import uuid from                        'uuid/v4';
 import BudgetAppContext from            './BudgetAppContext.js';
 import ApiService from                  './services/api-service'
 import LoginPage from                   './components/Pages/LoginPage/LoginPage';
@@ -25,9 +24,15 @@ class App extends React.Component {
 
     // set state with DATA json
     componentDidMount() {
+        const date = new Date()
+        const month = date.getMonth()
+        const year = date.getFullYear()
         Promise.all([
             ApiService.getAccounts(),
-            ApiService.getTransactions(),
+            // get transactions of given month
+            ApiService.getTransactions(
+                // month, year
+            ),
             ApiService.getCategories(),
             ApiService.getSubcategories(),
         ])
@@ -115,35 +120,18 @@ class App extends React.Component {
                 })
             })
     }
-    // TODO
-    addTransaction = (transactionAccountId, transactionSubcategoryId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow) => {
-        // checks if transactionAccountId is number or uuid
-        // makes ids of the same type for strict comparison
-        // remove when db
-        if (transactionAccountId < 2) {
-            transactionAccountId = parseInt(transactionAccountId)
-        } 
-
-        const newTransaction = {
-            transactionId: uuid(),
-            transactionSubcategoryId,
-            transactionDate,
-            transactionPayee,
-            transactionCategory,
-            transactionMemo,
-            transactionOutflow,
-            transactionInflow,
-            transactionAccountId,
-        }
-
-        ApiService.postTransaction(newTransaction.transactionId, transactionSubcategoryId, transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow)
-
-        this.setState({
-            transactions: [
-                ...this.state.transactions,
-                newTransaction
-            ]
-        })
+    addTransaction = (transactionDate, transactionPayee, transactionMemo, transactionOutflow, transactionInflow, transactionAccountId, transactionSubcategoryId) => {
+        // convert transactionDate to this format 2019-09-29T00:00:00.000Z
+        const formattedDate = transactionDate + 'T00:00:00.000Z'
+        ApiService.postTransaction(formattedDate, transactionPayee, transactionMemo, transactionOutflow, transactionInflow, transactionAccountId, transactionSubcategoryId)
+            .then(newTransaction => {
+                this.setState({
+                    transactions: [
+                        ...this.state.transactions,
+                        newTransaction
+                    ]
+                })
+            })
     }
     updateAccountBalance = (accountId, transactionOutflow, transactionInflow) => {
         const accountsClone = this.state.accounts

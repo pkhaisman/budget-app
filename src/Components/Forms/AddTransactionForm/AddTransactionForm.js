@@ -9,14 +9,13 @@ class AddTransactionForm extends React.Component {
         super(props)
         const { account_id } = this.props.match.params
         this.state = {
-            transactionAccountId: account_id.length < 2 ? parseInt(account_id) : account_id,
-            transactionSubcategoryId: 0,
             transactionDate: '',
             transactionPayee: '',
-            transactionCategory: '',
             transactionMemo: '',
-            transactionOutflow: '',
-            transactionInflow: '',
+            transactionOutflow: 0,
+            transactionInflow: 0,
+            transactionAccountId: account_id,
+            transactionSubcategoryId: 0,
         }
     }
 
@@ -28,26 +27,17 @@ class AddTransactionForm extends React.Component {
     }
     updateTransactionPayee = (e) => {
         e.preventDefault()
-        // if the payee is an account then set isDisabled to true
-        let isDisabled = false
-        this.context.accounts.forEach(a => {
-            if (a.accountName === e.target.value) {
-                isDisabled = true
-            }
-        })
         this.setState({
-            transactionPayee: e.target.value,
-            isDisabled,
+            transactionPayee: e.target.value
         })
     }
-    updateTransactionCategory = (e) => {
+    updateTransactionSubcategoryId = (e) => {
         e.preventDefault()
         let index = e.nativeEvent.target.selectedIndex
-        const transactionSubcategoryId = e.nativeEvent.target[index].id.length < 2 ? parseInt(e.nativeEvent.target[index].id) : e.nativeEvent.target[index].id
+        const transactionSubcategoryId = e.nativeEvent.target[index].id
 
         this.setState({
             transactionSubcategoryId,
-            transactionCategory: e.target.value
         })
     }
     updateTransactionMemo = (e) => {
@@ -73,7 +63,7 @@ class AddTransactionForm extends React.Component {
             return <option key={s.subcategoryId} id={s.subcategoryId}>{s.subcategoryName}</option>
         })
         return (
-            <select onChange={e => this.updateTransactionCategory(e)}>
+            <select onChange={e => this.updateTransactionSubcategoryId(e)}>
                 <option></option>
                 <option id='inflow'>Inflow</option>
                 {categoryOptions}
@@ -83,19 +73,18 @@ class AddTransactionForm extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        const { transactionAccountId, transactionSubcategoryId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow } = this.state
+        const { transactionDate, transactionPayee, transactionMemo, transactionOutflow, transactionInflow, transactionAccountId, transactionSubcategoryId } = this.state
                 
         this.setState({
             transactionAccountId: 0,
             transactionSubcategoryId: 0,
             transactionDate: '',
             transactionPayee: '',
-            transactionCategory: '',
             transactionMemo: '',
             transactionOutflow: 0,
             transactionInflow: 0,
         })
-        this.context.addTransaction(transactionAccountId, transactionSubcategoryId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow)
+        this.context.addTransaction(transactionDate, transactionPayee, transactionMemo, transactionOutflow, transactionInflow, transactionAccountId, transactionSubcategoryId)
         this.context.updateSpentAmount(transactionOutflow, transactionInflow, transactionSubcategoryId)
         this.context.updateAccountBalance(transactionAccountId, transactionOutflow, transactionInflow)
         this.props.history.push(`/accounts/${this.state.transactionAccountId}`)
