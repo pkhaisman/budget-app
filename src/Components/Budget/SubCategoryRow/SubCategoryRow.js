@@ -1,6 +1,6 @@
 import React from 'react';
 import BudgetAppContext from '../../../BudgetAppContext';
-import './SubcategoryRow.css';
+import './SubCategoryRow.css';
 
 class SubcategoryRow extends React.Component {
     static contextType = BudgetAppContext;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import BudgetAppContext from '../../../BudgetAppContext';
-import SubcategoryRow from '../SubcategoryRow/SubcategoryRow';
+import SubcategoryRow from '../SubCategoryRow/SubCategoryRow';
 import './CategoryRow.css';
 
 // displays parent category and sub categories

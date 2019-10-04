@@ -69,62 +69,53 @@ class App extends React.Component {
         })
     }
     addCategory = (categoryName, parentCategoryId) => {
+        // checks if adding category or subcategory based on presence of parentCategoryId
         if (!parentCategoryId) {
-            const newCategory = {
-                categoryId: uuid(),
-                categoryName,
-            }
-            
-            ApiService.postCategory(categoryName, newCategory.categoryId)
-    
-            this.setState({
-                categories: [
-                    ...this.state.categories,
-                    newCategory
-                ]
-            })
+            ApiService.postCategory(categoryName)
+                .then(newCategory => {
+                    this.setState({
+                        categories: [
+                            ...this.state.categories,
+                            newCategory
+                        ]
+                    })
+                })
         } else {
-            if (parentCategoryId.length < 2) {
-                parentCategoryId = parseInt(parentCategoryId)
-            }
-    
             const newSubcategory = {
-                subcategoryId: uuid(),
                 subcategoryName: categoryName,
                 subcategoryBudgeted: 0,
                 subcategorySpent: 0,
-                subcategoryAvailable: 0,
-                parentCategoryId: parentCategoryId,
+                parentCategoryId
             }
-
-            const { subcategoryId, subcategoryBudgeted, subcategorySpent, subcategoryAvailable } = newSubcategory
-
-            ApiService.postSubcategory(subcategoryId, categoryName, parentCategoryId, subcategoryBudgeted, subcategorySpent, subcategoryAvailable)
-    
-            this.setState({
-                subcategories: [
-                    ...this.state.subcategories,
-                    newSubcategory
-                ]
-            })
+            
+            ApiService.postSubcategory(
+                newSubcategory.subcategoryName,
+                newSubcategory.subcategoryBudgeted,
+                newSubcategory.subcategorySpent,
+                newSubcategory.parentCategoryId
+            )
+                .then(newSubcategory => {
+                    this.setState({
+                        subcategories: [
+                            ...this.state.subcategories,
+                            newSubcategory
+                        ]
+                    })
+                })
         }
     }
     addAccount = (accountName, accountBalance) => {
-        const newAccount = {
-            accountId: uuid(),
-            accountName,
-            accountBalance,
-        }
-
-        ApiService.postAccount(newAccount.accountId, accountName, accountBalance)
-
-        this.setState({
-            accounts: [
-                ...this.state.accounts,
-                newAccount
-            ]
-        })
+        ApiService.postAccount(accountName, accountBalance)
+            .then(newAccount => {
+                this.setState({
+                    accounts: [
+                        ...this.state.accounts,
+                        newAccount
+                    ]
+                })
+            })
     }
+    // TODO
     addTransaction = (transactionAccountId, transactionSubcategoryId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow) => {
         // checks if transactionAccountId is number or uuid
         // makes ids of the same type for strict comparison
@@ -177,42 +168,32 @@ class App extends React.Component {
         })
     }
     deleteCategory = (categoryId) => {
-        const { categories, subcategories } = this.state
-        // delete from state
-        // delete subcategories
-        const subcategoriesToDelete = subcategories.filter(s => s.parentCategoryId === categoryId)
-        subcategoriesToDelete.forEach(s => {
-            this.deleteSubcategory(s.subcategoryId)
-        })
-        // delete category
-        const categoriesClone = categories
-        const categoryIndex = categoriesClone.findIndex(c => c.categoryId === categoryId)
-        categoriesClone.splice(categoryIndex, 1)
-
+        const filteredCategories = this.state.categories.filter(c => c.categoryId !== categoryId)
+        const filteredSubcategories = this.state.subcategories.filter(s => s.parentCategoryId !== categoryId)
         ApiService.deleteCategory(categoryId)
-
-        this.setState({
-            categories: [
-                ...categoriesClone
-            ]
-        })
+            .then(() => {
+                this.setState({
+                    categories: [
+                        ...filteredCategories
+                    ],
+                    subcategories: [
+                        ...filteredSubcategories
+                    ]
+                })
+            })
     }
     deleteSubcategory = (subcategoryId) => {
-        const { subcategories } = this.state
-
-        const subcategoriesClone = subcategories
-        const subcategoryIndex = subcategories.findIndex(s => s.subcategoryId === subcategoryId)
-        subcategoriesClone.splice(subcategoryIndex, 1)
-
+        const filteredSubcategories = this.state.subcategories.filter(s => s.subcategoryId !== subcategoryId)
         ApiService.deleteSubcategory(subcategoryId)
-
-        this.setState({
-            subcategories: [
-                ...subcategoriesClone
-            ]
-        })
-        
+            .then(() => {
+                this.setState({
+                    subcategories: [
+                        ...filteredSubcategories
+                    ]
+                })
+            })
     }
+    // TODO
     deleteTransaction = (transactionId) => {
         const { transactions } = this.state
 
@@ -229,24 +210,19 @@ class App extends React.Component {
         })
     }
     deleteAccount = (accountId) => {
-        const { accounts, transactions } = this.state
-
-        const transactionsToDelete = transactions.filter(t => t.transactionAccountId === accountId)
-        transactionsToDelete.forEach(t => {
-            this.deleteTransaction(t.transactionId)
-        })
-
-        const accountsClone = accounts
-        const accountIndex = accountsClone.findIndex(a => a.accountId === accountId)
-        accountsClone.splice(accountIndex, 1)
-
+        const filteredAccounts = this.state.accounts.filter(a => a.accountId !== accountId)
+        const filteredTransactions = this.state.transactions.filter(t => t.transactionAccountId !== accountId)
         ApiService.deleteAccount(accountId)
-
-        this.setState({
-            accounts: [
-                ...accountsClone
-            ]
-        })
+            .then(() => {
+                this.setState({
+                    transactions: [
+                        ...filteredTransactions
+                    ],
+                    accounts: [
+                        ...filteredAccounts
+                    ]
+                })
+            })
     }
 
     render() {

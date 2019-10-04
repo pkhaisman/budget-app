@@ -79,19 +79,25 @@ const ApiService = {
                 })    
             )
     },
-    postAccount(accountId, accountName, accountBalance) {
+    postAccount(name, balance) {
         return fetch(`${config.API_ENDPOINT}/accounts`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                accountId,
-                accountName,
-                accountBalance
+                name,
+                balance
             }),
         })
             .then(res => res.json())
+            .then(account => {
+                return {
+                    accountId: account.id,
+                    accountName: account.name,
+                    accountBalance: account.balance
+                }
+            })
     },
     postTransaction(transactionId, transactionSubcategoryId, transactionAccountId, transactionDate, transactionPayee, transactionCategory, transactionMemo, transactionOutflow, transactionInflow) {
         return fetch(`${config.API_ENDPOINT}/transactions`, {
@@ -113,35 +119,45 @@ const ApiService = {
         })
             .then(res => res.json())
     },
-    postCategory(categoryName, categoryId) {
+    postCategory(name) {
         return fetch(`${config.API_ENDPOINT}/categories`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({
-                categoryName,
-                categoryId
-            })
+            body: JSON.stringify({ name })
         })
             .then(res => res.json())
+            .then(category => {
+                return {
+                    categoryId: category.id,
+                    categoryName: category.name
+                }
+            })
     },
-    postSubcategory(subcategoryId, subcategoryName, parentCategoryId, subcategoryBudgeted, subcategorySpent, subcategoryAvailable) {
+    postSubcategory(name, budgeted, spent, category_id) {
         return fetch(`${config.API_ENDPOINT}/subcategories`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                subcategoryId,
-                subcategoryName,
-                parentCategoryId,
-                subcategoryBudgeted, 
-                subcategorySpent, 
-                subcategoryAvailable
+                name,
+                budgeted,
+                spent,
+                category_id
             })
         })
             .then(res => res.json())
+            .then(subcategory => {
+                return {
+                    subcategoryId: subcategory.id,
+                    subcategoryName: subcategory.name,
+                    subcategoryBudgeted: subcategory.budgeted,
+                    subcategorySpent: subcategory.spent,
+                    parentCategoryId: subcategory.category_id,
+                }
+            })
     },
     deleteCategory(categoryId) {
         return fetch(`${config.API_ENDPOINT}/categories/${categoryId}`, {
