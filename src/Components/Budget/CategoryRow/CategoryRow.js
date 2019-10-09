@@ -16,37 +16,28 @@ class CategoryRow extends React.Component {
             .filter(s => s.parentCategoryId === categoryId)
             .map(s => {
                 let spent = this.context.transactions
-                    .filter(t => t.transactionSubcategoryId === s.subcategoryId)
+                    .filter(t => t.transactionSubcategoryId === s.subcategoryId && new Date(t.transactionDate).getMonth() + 1 === this.context.month && new Date(t.transactionDate).getFullYear() === this.context.year)
                     .map(t => t.transactionOutflow)
                     .reduce((a, b) => {
                         return a + b
                     }, 0)
                 s.subcategorySpent = spent
+
                 return <SubcategoryRow key={s.subcategoryId} subcategory={s} />
             })
         
         // calculates values to display for parent category
         let categoryData = {}
         if (subcategoryRows.length !== 0) {
-            let spent = 0, budgeted = 0, available = 0;
+            let spent = 0
             subcategoryRows.forEach((row) => {
-                const { subcategorySpent, subcategoryBudgeted } = row.props.subcategory
+                const { subcategorySpent } = row.props.subcategory
                 spent += parseInt(subcategorySpent);
-                budgeted += parseInt(subcategoryBudgeted)
-                available = budgeted - spent
             })
             
-            categoryData = {
-                categoryBudgeted: budgeted,
-                categorySpent: spent,
-                categoryAvailable: available,
-            }
+            categoryData = { categorySpent: spent }
         } else {
-            categoryData = {
-                categoryBudgeted: 0,
-                categorySpent: 0,
-                categoryAvailable: 0,
-            }
+            categoryData = { categorySpent: 0 }
         }
 
         return (
@@ -59,9 +50,7 @@ class CategoryRow extends React.Component {
                         </Link>
                         <button onClick={e => this.context.deleteCategory(categoryId)}>x</button>
                     </td>
-                    <td className='CategoryRow__cell CategoryRow__cell--col-2'>{categoryData.categoryBudgeted}</td>
                     <td className='CategoryRow__cell CategoryRow__cell--col-3'>{categoryData.categorySpent}</td>
-                    <td className='CategoryRow__cell CategoryRow__cell--col-4'>{categoryData.categoryAvailable}</td>
                 </tr>
                 {subcategoryRows}
             </tbody>

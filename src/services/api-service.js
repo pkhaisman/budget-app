@@ -19,8 +19,8 @@ const ApiService = {
                 })
             )
     },
-    getTransactions(month, year) {
-        return fetch(`${config.API_ENDPOINT}/transactions?month=${month}&year=${year}`, {
+    getTransactions() {
+        return fetch(`${config.API_ENDPOINT}/transactions`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -201,6 +201,18 @@ const ApiService = {
             }
         })
     },
+    updateAccountBalance(accountId, balance, name) {
+        return fetch(`${config.API_ENDPOINT}/accounts/${accountId}`, {
+            method: `PATCH`,
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                name,
+                balance
+            })
+        })
+    }
 }
 
 export default ApiService

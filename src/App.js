@@ -25,12 +25,9 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        const date = new Date()
-        const month = date.getMonth() + 1
-        const year = date.getFullYear()
         Promise.all([
             ApiService.getAccounts(),
-            ApiService.getTransactions(month, year),
+            ApiService.getTransactions(),
             ApiService.getCategories(),
             ApiService.getSubcategories(),
         ])
@@ -57,6 +54,8 @@ class App extends React.Component {
         })
     }
     updateAccountBalance = (accountId, transactionOutflow, transactionInflow) => {
+        let account
+        let newBalance
         const accountsClone = this.state.accounts
 
         accountsClone.forEach(a => {
@@ -64,6 +63,8 @@ class App extends React.Component {
                 transactionOutflow
                     ? a.accountBalance -= transactionOutflow
                     : a.accountBalance += transactionInflow
+                account = a
+                newBalance = a.accountBalance
             }
         })
 
@@ -72,6 +73,8 @@ class App extends React.Component {
                 ...accountsClone
             ]
         })
+
+        ApiService.updateAccountBalance(accountId, newBalance, account.accountName)
     }
 
     addCategory = (categoryName, parentCategoryId) => {
@@ -137,39 +140,48 @@ class App extends React.Component {
 
     deleteCategory = (categoryId) => {
         const filteredCategories = this.state.categories.filter(c => c.categoryId !== categoryId)
-        const filteredSubcategories = this.state.subcategories.filter(s => s.parentCategoryId !== categoryId)
+        const subcategoriesOfCategory = this.state.subcategories.filter(s => s.parentCategoryId === categoryId)
+        subcategoriesOfCategory.forEach(s => this.deleteSubcategory(s.subcategoryId))
+
         ApiService.deleteCategory(categoryId)
             .then(() => {
                 this.setState({
                     categories: [
                         ...filteredCategories
-                    ],
-                    subcategories: [
-                        ...filteredSubcategories
                     ]
                 })
             })
     }
     deleteSubcategory = (subcategoryId) => {
         const filteredSubcategories = this.state.subcategories.filter(s => s.subcategoryId !== subcategoryId)
+        const filteredTransactions = this.state.transactions.filter(t => t.transactionSubcategoryId !== subcategoryId)
+        const transactionsToDelete = this.state.transactions.filter(t => t.transactionSubcategoryId === subcategoryId)
+        transactionsToDelete.forEach(t => {
+            this.updateAccountBalance(t.transactionAccountId, t.transactionInflow, t.transactionOutflow)
+        })
+        
         ApiService.deleteSubcategory(subcategoryId)
             .then(() => {
                 this.setState({
                     subcategories: [
                         ...filteredSubcategories
+                    ],
+                    transactions: [
+                        ...filteredTransactions
                     ]
                 })
             })
     }
     deleteTransaction = (transactionId) => {
-        const { transactions } = this.state
-
-        const transactionsClone = transactions
-        const transactionIndex = transactions.findIndex(t => t.transactionId === transactionId)
+        const transactionsClone = this.state.transactions
+        const transaction = transactionsClone.find(t => t.transactionId === transactionId)
+        const transactionIndex = transactionsClone.findIndex(t => t.transactionId === transactionId)
         transactionsClone.splice(transactionIndex, 1)
 
-        ApiService.deleteTransaction(transactionId)
+        // updates account balance when transaction deleted. inverts outflow and inflow. see updateAccountBalance function
+        this.updateAccountBalance(transaction.transactionAccountId, transaction.transactionInflow, transaction.transactionOutflow)
 
+        ApiService.deleteTransaction(transactionId)
         this.setState({
             transactions: [
                 ...transactionsClone

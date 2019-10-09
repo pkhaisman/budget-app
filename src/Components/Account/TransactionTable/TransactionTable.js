@@ -9,17 +9,11 @@ class TransactionTable extends React.Component {
     static contextType = BudgetAppContext;
 
     render() {
-        let account_id = this.props.match.params.account_id
+        let accountId = this.props.match.params.account_id
 
-        // checks if id is number or uuid.
-        // convertes number to type number
-        // remove after db implementation
-        if (account_id.length < 2) {
-            account_id = parseInt(account_id)
-        }
-
+        // filter transactions by account and month
         const accountTransactionRows = this.context.transactions
-            .filter(t => t.transactionAccountId === account_id)
+            .filter(t => t.transactionAccountId === parseInt(accountId) && new Date(t.transactionDate).getMonth() + 1 === this.context.month && new Date(t.transactionDate).getFullYear() === this.context.year)
             .map(t => <TransactionRow key={t.transactionId} transaction={t} />)
 
         return (

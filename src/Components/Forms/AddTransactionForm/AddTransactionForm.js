@@ -71,8 +71,7 @@ class AddTransactionForm extends React.Component {
         })
         return (
             <select onChange={e => this.updateTransactionSubcategoryId(e)}>
-                <option></option>
-                <option id='0'>Inflow</option>
+                <option>Select category</option>
                 {categoryOptions}
             </select>
         )
@@ -91,6 +90,7 @@ class AddTransactionForm extends React.Component {
             transactionOutflow: 0,
             transactionInflow: 0,
         })
+        
         this.context.addTransaction(transactionDate, transactionPayee, transactionMemo, transactionOutflow, transactionInflow, transactionAccountId, transactionSubcategoryId)
         this.context.updateSpentAmount(transactionOutflow, transactionInflow, transactionSubcategoryId)
         this.context.updateAccountBalance(transactionAccountId, transactionOutflow, transactionInflow)

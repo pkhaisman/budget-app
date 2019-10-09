@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import BudgetAppContext from '../../../BudgetAppContext';
 import CategoryRow from '../CategoryRow/CategoryRow';
 import './CategoryTable.css';
-import BudgetAppContext from '../../../BudgetAppContext';
 
 class CategoryTable extends React.Component {
     static contextType = BudgetAppContext;
@@ -22,11 +22,10 @@ class CategoryTable extends React.Component {
                                 <button>+</button>
                             </Link>
                         </th>
-                        <th className='CategoryTable__cell CategoryTable__cell--col-2'>Budgeted</th>
                         <th className='CategoryTable__cell CategoryTable__cell--col-3'>Spent</th>
-                        <th className='CategoryTable__cell CategoryTable__cell--col-4'>Available</th>
                     </tr>
                 </thead>
+                
                 {categoryRows}
             </table>
         );
