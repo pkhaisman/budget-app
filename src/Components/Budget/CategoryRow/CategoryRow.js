@@ -14,7 +14,16 @@ class CategoryRow extends React.Component {
         // renders sub category rows
         const subcategoryRows = this.context.subcategories
             .filter(s => s.parentCategoryId === categoryId)
-            .map(s => <SubcategoryRow key={s.subcategoryId} subcategory={s} />)
+            .map(s => {
+                let spent = this.context.transactions
+                    .filter(t => t.transactionSubcategoryId === s.subcategoryId)
+                    .map(t => t.transactionOutflow)
+                    .reduce((a, b) => {
+                        return a + b
+                    }, 0)
+                s.subcategorySpent = spent
+                return <SubcategoryRow key={s.subcategoryId} subcategory={s} />
+            })
         
         // calculates values to display for parent category
         let categoryData = {}
@@ -24,7 +33,7 @@ class CategoryRow extends React.Component {
                 const { subcategorySpent, subcategoryBudgeted } = row.props.subcategory
                 spent += parseInt(subcategorySpent);
                 budgeted += parseInt(subcategoryBudgeted)
-                available = budgeted + spent
+                available = budgeted - spent
             })
             
             categoryData = {

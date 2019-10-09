@@ -16,6 +16,10 @@ const BudgetAppContext = React.createContext({
     updateSpentAmount:      () => {},
     updateBudgetedAmount:   () => {},
     updateAccountBalance:   () => {},
+    goToPreviousMonth: () => {},
+    goToNextMonth: () => {},
+    month: {},
+    year: {},
 });
 
 export default BudgetAppContext;

@@ -14,7 +14,7 @@ class AddTransactionForm extends React.Component {
             transactionMemo: '',
             transactionOutflow: 0,
             transactionInflow: 0,
-            transactionAccountId: account_id,
+            transactionAccountId: parseInt(account_id),
             transactionSubcategoryId: 0,
         }
     }
@@ -36,9 +36,16 @@ class AddTransactionForm extends React.Component {
         let index = e.nativeEvent.target.selectedIndex
         const transactionSubcategoryId = e.nativeEvent.target[index].id
 
-        this.setState({
-            transactionSubcategoryId,
-        })
+        if (transactionSubcategoryId === 0) {
+            this.setState({
+                transactionSubcategoryId: null
+            })
+        } else {
+            this.setState({
+                transactionSubcategoryId,
+            })
+        }
+
     }
     updateTransactionMemo = (e) => {
         e.preventDefault()
@@ -65,7 +72,7 @@ class AddTransactionForm extends React.Component {
         return (
             <select onChange={e => this.updateTransactionSubcategoryId(e)}>
                 <option></option>
-                <option id='inflow'>Inflow</option>
+                <option id='0'>Inflow</option>
                 {categoryOptions}
             </select>
         )

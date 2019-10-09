@@ -2,9 +2,13 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import Menu from '../../Templates/Menu/Menu';
 import AccountDropdown from '../../AccountBar/AccountDropdown/AccountDropdown';
+import MonthYear from '../../MonthYear/MonthYear'
+import BudgetAppContext from '../../../BudgetAppContext'
 import './AccountSummary.css';
 
 class AccountSummary extends React.Component {
+    static contextType = BudgetAppContext
+
     constructor() {
         super();
         this.state = {
@@ -18,6 +22,8 @@ class AccountSummary extends React.Component {
     }
 
     render() {
+        const account = this.context.accounts.find(a => a.accountId === parseInt(this.props.match.params.account_id))
+
         return (
             <div>
                 <ul className='AccountSummary'>
@@ -26,8 +32,9 @@ class AccountSummary extends React.Component {
                             <Menu />  
                         </button>
                     </li>
-                    <li>Cash</li>
-                    <li>Balance</li>
+                    <MonthYear month={this.context.month} year={this.context.year} />
+                    <li>{account.accountName}</li>
+                    <li>{account.accountBalance}</li>
                     <li>
                         <Link to={`/accounts/${this.props.match.params.account_id}/add-transaction`}>
                             <button>Add</button>

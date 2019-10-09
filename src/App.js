@@ -19,20 +19,18 @@ class App extends React.Component {
             categories: '',
             transactions: '',
             subcategories: '',
+            month: new Date().getMonth() + 1,
+            year: new Date().getFullYear()
         }
     }
 
-    // set state with DATA json
     componentDidMount() {
         const date = new Date()
-        const month = date.getMonth()
+        const month = date.getMonth() + 1
         const year = date.getFullYear()
         Promise.all([
             ApiService.getAccounts(),
-            // get transactions of given month
-            ApiService.getTransactions(
-                // month, year
-            ),
+            ApiService.getTransactions(month, year),
             ApiService.getCategories(),
             ApiService.getSubcategories(),
         ])
@@ -41,21 +39,6 @@ class App extends React.Component {
             })
     }
 
-    updateBudgetedAmount = (budgetedAmount, subcategoryId) => {
-        const subcategoriesClone = this.state.subcategories
-
-        // find the subCategory and update budgeted and available fields
-        subcategoriesClone.forEach(s => {
-            if (s.subcategoryId === subcategoryId) {
-                s.subcategoryBudgeted = budgetedAmount
-                s.subcategoryAvailable = parseInt(s.subcategorySpent) + parseInt(budgetedAmount)
-            }
-        })
-
-        this.setState({
-            subcategories: subcategoriesClone
-        })
-    }
     updateSpentAmount = (outflow, inflow, subcategoryId) => {
         const subcategoriesClone = this.state.subcategories
 
@@ -73,6 +56,24 @@ class App extends React.Component {
             subcategories: subcategoriesClone
         })
     }
+    updateAccountBalance = (accountId, transactionOutflow, transactionInflow) => {
+        const accountsClone = this.state.accounts
+
+        accountsClone.forEach(a => {
+            if (a.accountId === accountId) {
+                transactionOutflow
+                    ? a.accountBalance -= transactionOutflow
+                    : a.accountBalance += transactionInflow
+            }
+        })
+
+        this.setState({
+            accounts: [
+                ...accountsClone
+            ]
+        })
+    }
+
     addCategory = (categoryName, parentCategoryId) => {
         // checks if adding category or subcategory based on presence of parentCategoryId
         if (!parentCategoryId) {
@@ -133,28 +134,7 @@ class App extends React.Component {
                 })
             })
     }
-    updateAccountBalance = (accountId, transactionOutflow, transactionInflow) => {
-        const accountsClone = this.state.accounts
 
-        accountsClone.forEach(a => {
-            // check if id is string or number
-            if (a.accountId.length < 2) {
-                a.accountId = parseInt(accountId)
-            } 
-
-            if (a.accountId === accountId) {
-                transactionOutflow
-                    ? a.accountBalance -= transactionOutflow
-                    : a.accountBalance += transactionInflow
-            }
-        })
-
-        this.setState({
-            accounts: [
-                ...accountsClone
-            ]
-        })
-    }
     deleteCategory = (categoryId) => {
         const filteredCategories = this.state.categories.filter(c => c.categoryId !== categoryId)
         const filteredSubcategories = this.state.subcategories.filter(s => s.parentCategoryId !== categoryId)
@@ -181,7 +161,6 @@ class App extends React.Component {
                 })
             })
     }
-    // TODO
     deleteTransaction = (transactionId) => {
         const { transactions } = this.state
 
@@ -213,6 +192,45 @@ class App extends React.Component {
             })
     }
 
+    goToPreviousMonth = (month) => {
+        if (month < 1) {
+            this.setState({
+                month: 12,
+                year: this.state.year - 1
+            })
+        } else { 
+            this.setState({
+                month
+            })
+        }
+        
+        ApiService.getTransactions(month, this.state.year)
+            .then(transactions => {
+                this.setState({
+                    transactions
+                })
+            })
+    }
+    goToNextMonth = (month) => {
+        if (month > 12) {
+            this.setState({
+                month: 1,
+                year: this.state.year + 1
+            })
+        } else { 
+            this.setState({
+                month
+            })
+        }
+
+        ApiService.getTransactions(month, this.state.year)
+            .then(transactions => {
+                this.setState({
+                    transactions
+                })
+            })
+    }
+
     render() {
         const contextValue = {
             accounts:               this.state.accounts,
@@ -231,6 +249,11 @@ class App extends React.Component {
             updateSpentAmount:      this.updateSpentAmount,
             updateBudgetedAmount:   this.updateBudgetedAmount,
             updateAccountBalance:   this.updateAccountBalance,
+
+            month:                  this.state.month,
+            year:                   this.state.year,
+            goToNextMonth:          this.goToNextMonth,
+            goToPreviousMonth:      this.goToPreviousMonth,
         }
 
         // TODO: render loading page

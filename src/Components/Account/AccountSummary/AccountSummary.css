@@ -7,3 +7,9 @@
     padding: 0;
     height: 50px;
 }
+
+@media screen and (min-width: 800px) {
+    .AccountSummary__menu {
+        display: none;
+    }
+}

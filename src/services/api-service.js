@@ -20,10 +20,7 @@ const ApiService = {
             )
     },
     getTransactions(month, year) {
-        // add query after transactions for month year
-        return fetch(`${config.API_ENDPOINT}/transactions
-
-        `, {
+        return fetch(`${config.API_ENDPOINT}/transactions?month=${month}&year=${year}`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
