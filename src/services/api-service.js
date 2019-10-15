@@ -1,3 +1,4 @@
+import TokenService from './token-service'
 import config from '../config'
 
 const ApiService = {
@@ -5,7 +6,8 @@ const ApiService = {
         return fetch(`${config.API_ENDPOINT}/accounts`, {
             method: 'GET',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `bearer ${TokenService.getAuthToken()}`
             }
         })
             .then(res => res.json())
@@ -14,7 +16,8 @@ const ApiService = {
                     return {
                         accountId: a.id,
                         accountName: a.name,
-                        accountBalance: a.balance
+                        accountBalance: a.balance,
+                        userId: a.user_id
                     }
                 })
             )
@@ -23,7 +26,8 @@ const ApiService = {
         return fetch(`${config.API_ENDPOINT}/transactions`, {
             method: 'GET',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `bearer ${TokenService.getAuthToken()}`
             }
         })
             .then(res => res.json())
@@ -38,6 +42,7 @@ const ApiService = {
                         transactionInflow: t.inflow,
                         transactionAccountId: t.account_id,
                         transactionSubcategoryId: t.subcategory_id,
+                        userId: t.user_id
                     }
                 })
             )
@@ -46,7 +51,8 @@ const ApiService = {
         return fetch(`${config.API_ENDPOINT}/categories`, {
             method: 'GET',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `bearer ${TokenService.getAuthToken()}`
             }
         })
             .then(res => res.json())
@@ -54,7 +60,8 @@ const ApiService = {
                 categories.map(c => {
                     return {
                         categoryId: c.id,
-                        categoryName: c.name
+                        categoryName: c.name,
+                        userId: c.user_id
                     }
                 })    
             )
@@ -63,7 +70,8 @@ const ApiService = {
         return fetch(`${config.API_ENDPOINT}/subcategories`, {
             method: 'GET',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `bearer ${TokenService.getAuthToken()}`
             },
         })
             .then(res => res.json())
@@ -74,7 +82,8 @@ const ApiService = {
                         subcategoryName: s.name,
                         subcategoryBudgeted: s.budgeted,
                         subcategorySpent: s.spent,
-                        parentCategoryId: s.category_id
+                        parentCategoryId: s.category_id,
+                        userId: s.user_id,
                     }
                 })    
             )
@@ -83,7 +92,8 @@ const ApiService = {
         return fetch(`${config.API_ENDPOINT}/accounts`, {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `bearer ${TokenService.getAuthToken()}`
             },
             body: JSON.stringify({
                 name,
@@ -95,7 +105,8 @@ const ApiService = {
                 return {
                     accountId: account.id,
                     accountName: account.name,
-                    accountBalance: account.balance
+                    accountBalance: account.balance,
+                    userId: account.user_id,
                 }
             })
     },
@@ -103,7 +114,8 @@ const ApiService = {
         return fetch(`${config.API_ENDPOINT}/transactions`, {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `bearer ${TokenService.getAuthToken()}`
             },
             body: JSON.stringify({
                 date,
@@ -125,7 +137,8 @@ const ApiService = {
                     transactionOutflow: transaction.outflow,
                     transactionInflow: transaction.inflow,
                     transactionAccountId: transaction.account_id,
-                    transactionSubcategoryId: transaction.subcategory_id
+                    transactionSubcategoryId: transaction.subcategory_id,
+                    userId: transaction.user_id,
                 }
             })
     },
@@ -133,7 +146,8 @@ const ApiService = {
         return fetch(`${config.API_ENDPOINT}/categories`, {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `bearer ${TokenService.getAuthToken()}`
             },
             body: JSON.stringify({ name })
         })
@@ -141,7 +155,8 @@ const ApiService = {
             .then(category => {
                 return {
                     categoryId: category.id,
-                    categoryName: category.name
+                    categoryName: category.name,
+                    userId: category.user_id
                 }
             })
     },
@@ -149,7 +164,8 @@ const ApiService = {
         return fetch(`${config.API_ENDPOINT}/subcategories`, {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `bearer ${TokenService.getAuthToken()}`
             },
             body: JSON.stringify({
                 name,
@@ -166,6 +182,7 @@ const ApiService = {
                     subcategoryBudgeted: subcategory.budgeted,
                     subcategorySpent: subcategory.spent,
                     parentCategoryId: subcategory.category_id,
+                    userId: subcategory.user_id,
                 }
             })
     },
@@ -173,7 +190,8 @@ const ApiService = {
         return fetch(`${config.API_ENDPOINT}/categories/${categoryId}`, {
             method: 'DELETE',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `bearer ${TokenService.getAuthToken()}`
             }
         })
     },
@@ -181,7 +199,8 @@ const ApiService = {
         return fetch(`${config.API_ENDPOINT}/subcategories/${subcategoryId}`, {
             method: 'DELETE',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `bearer ${TokenService.getAuthToken()}`
             }
         })
     },
@@ -189,7 +208,8 @@ const ApiService = {
         return fetch(`${config.API_ENDPOINT}/transactions/${transactionId}`, {
             method: 'DELETE',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `bearer ${TokenService.getAuthToken()}`
             }
         })
     },
@@ -197,7 +217,8 @@ const ApiService = {
         return fetch(`${config.API_ENDPOINT}/accounts/${accountId}`, {
             method: 'DELETE',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `bearer ${TokenService.getAuthToken()}`
             }
         })
     },
@@ -205,7 +226,8 @@ const ApiService = {
         return fetch(`${config.API_ENDPOINT}/accounts/${accountId}`, {
             method: `PATCH`,
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `bearer ${TokenService.getAuthToken()}`
             },
             body: JSON.stringify({
                 name,

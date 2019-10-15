@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../../Templates/Header/Header';
-import UserForm from '../../Templates/UserForm/UserForm';
+import SignUpForm from '../../Forms/SignUpForm/SignUpForm'
 import './SignUpPage.css';
 
 class LoginPage extends React.Component {
@@ -8,7 +8,7 @@ class LoginPage extends React.Component {
         return (
             <div className='SignUpPage'>
                 <Header />
-                <UserForm type='Sign Up' />
+                <SignUpForm />
             </div>
         );
     }

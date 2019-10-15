@@ -1,0 +1,23 @@
+.LoginForm {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.LoginForm__title {
+    margin: 0;
+}
+
+.LoginForm__user-inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.LoginForm__buttons {
+    display: flex;
+    justify-content: space-between;
+}

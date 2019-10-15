@@ -1,12 +1,14 @@
 import React from                       'react';
-import { Route, BrowserRouter } from    'react-router-dom';
+import { BrowserRouter } from    'react-router-dom';
 import BudgetAppContext from            './BudgetAppContext.js';
 import ApiService from                  './services/api-service'
 import LoginPage from                   './components/Pages/LoginPage/LoginPage';
-import BudgetPage from                   './components/Pages/BudgetPage/BudgetPage';
+import BudgetPage from                  './components/Pages/BudgetPage/BudgetPage';
 import SignUpPage from                  './components/Pages/SignUpPage/SignUpPage';
 import LandingPage from                 './components/Pages/LandingPage/LandingPage';
 import AccountPage from                 './components/Pages/AccountPage/AccountPage';
+import PublicRoute from                 './components/Routes/PublicRoute/PublicRoute';
+import PrivateRoute from                './components/Routes/PrivateRoute/PrivateRoute';
 import AddAccountPage from              './components/Pages/AddAccountPage/AddAccountPage';
 import AddCategoryPage from             './components/Pages/AddCategoryPage/AddCategoryPage';
 import AddTransactionPage from          './components/Pages/AddTransactionPage/AddTransactionPage';
@@ -24,16 +26,13 @@ class App extends React.Component {
         }
     }
 
-    componentDidMount() {
-        Promise.all([
-            ApiService.getAccounts(),
-            ApiService.getTransactions(),
-            ApiService.getCategories(),
-            ApiService.getSubcategories(),
-        ])
-            .then(([ accounts, transactions, categories, subcategories ]) => {
-                this.setState({ accounts, transactions, categories, subcategories })
-            })
+    setContext = (accounts, transactions, categories, subcategories) => {
+        this.setState({
+            accounts,
+            transactions,
+            categories,
+            subcategories
+        })
     }
 
     updateSpentAmount = (outflow, inflow, subcategoryId) => {
@@ -249,6 +248,8 @@ class App extends React.Component {
             categories:             this.state.categories,
             transactions:           this.state.transactions,
             subcategories:          this.state.subcategories,
+            
+            setContext:             this.setContext,
 
             addAccount:             this.addAccount,
             addCategory:            this.addCategory,
@@ -269,34 +270,34 @@ class App extends React.Component {
         }
 
         // TODO: render loading page
-        if (!this.state.accounts || !this.state.categories) {
-            return null;
-        }
+        // if (!this.state.accounts || !this.state.categories) {
+        //     return null;
+        // }
 
         return (
             <BrowserRouter>
                 <main className='App'>
                     <BudgetAppContext.Provider value={contextValue}>
-                        <Route path='/'                         
+                        <PublicRoute path='/'                         
                             exact 
                             component={LandingPage} />
-                        <Route path='/login'                    
+                        <PublicRoute path='/login'                    
                             component={LoginPage} />
-                        <Route path='/budget'                   
+                        <PrivateRoute path='/budget'                   
                             exact 
                             component={BudgetPage} />
-                        <Route path='/signup'                   
+                        <PublicRoute path='/signup'                   
                             component={SignUpPage} />
-                        <Route path='/add-account'              
+                        <PrivateRoute path='/add-account'              
                             component={AddAccountPage} />
-                        <Route path='/accounts/:account_id'  
+                        <PrivateRoute path='/accounts/:account_id'  
                             exact   
                             component={AccountPage} />
-                        <Route path='/budget/add-category'      
+                        <PrivateRoute path='/budget/add-category'      
                             component={AddCategoryPage} />
-                        <Route path='/budget/:category_id/add-sub-category'  
+                        <PrivateRoute path='/budget/:category_id/add-sub-category'  
                             component={AddCategoryPage} />
-                        <Route path='/accounts/:account_id/add-transaction'          
+                        <PrivateRoute path='/accounts/:account_id/add-transaction'          
                             component={AddTransactionPage} />
                     </BudgetAppContext.Provider>
                 </main>

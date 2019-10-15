@@ -1,4 +1,4 @@
-.UserForm {
+.SignUpForm {
     display: flex;
     flex-direction: column;
     width: 150px;
@@ -8,16 +8,16 @@
     border-radius: 5px;
 }
 
-.UserForm__title {
+.SignUpForm__title {
     margin: 0;
 }
 
-.UserForm__user-inputs {
+.SignUpForm__user-inputs {
     display: flex;
     flex-direction: column;
 }
 
-.UserForm__buttons {
+.SignUpForm__buttons {
     display: flex;
     justify-content: space-between;
 }
