@@ -9,8 +9,8 @@ class SignUpForm extends React.Component {
         const { username, password } = e.target
 
         AuthApiService.postUser({
-            username,
-            password,
+            username: username.value,
+            password: password.value,
         })
             .then(() => {
                 this.props.history.push('/budget')
