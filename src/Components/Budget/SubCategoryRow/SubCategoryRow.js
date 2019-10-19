@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 import BudgetAppContext from '../../../BudgetAppContext';
 import './SubCategoryRow.css';
 
@@ -10,11 +12,11 @@ class SubcategoryRow extends React.Component {
 
         return (
             <tr className='SubcategoryRow'>
-                <td className='subcategoryRow__cell '>
+                <td className='SubcategoryRow__cell SubcategoryRow__cell--col-1'>
                     {subcategoryName}
-                    <button onClick={e => this.context.deleteSubcategory(subcategoryId)}>x</button>
+                    <FontAwesomeIcon className='SubcategoryRow__delete' icon={faTimesCircle} color='red' onClick={e => this.context.deleteSubcategory(subcategoryId)} />
                 </td>
-                <td className='subcategoryRow__cell subcategoryRow__cell--col-3'>{subcategorySpent}</td>
+                <td className='SubcategoryRow__cell SubcategoryRow__cell--col-2'>{subcategorySpent}</td>
             </tr>
         );
     }

@@ -3,3 +3,18 @@
     justify-content: center;
     margin-top: 20px;
 }
+
+.BudgetNavButton__button {
+    border-radius: 5px;
+    background-color: #56abbd;
+    border: none;
+    color: white;
+    height: 25px;
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+.BudgetNavButton__button:hover {
+    cursor: pointer;
+    background-color: #207181;
+}

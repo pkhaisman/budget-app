@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlusSquare, faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 import BudgetAppContext from '../../../BudgetAppContext';
 import SubcategoryRow from '../SubCategoryRow/SubCategoryRow';
 import './CategoryRow.css';
@@ -45,12 +47,12 @@ class CategoryRow extends React.Component {
                 <tr className='CategoryRow'>
                     <td className='CategoryRow__cell CategoryRow__cell--col-1'>
                         {categoryName}
-                        <Link to={`/budget/${categoryId}/add-sub-category`}>
-                            <button>+</button>
+                        <Link className='CategoryRow__add-link' to={`/budget/${categoryId}/add-sub-category`}>
+                            <FontAwesomeIcon className='CategoryRow__add' icon={faPlusSquare} color='#2c97ad' />
                         </Link>
-                        <button onClick={e => this.context.deleteCategory(categoryId)}>x</button>
+                        <FontAwesomeIcon className='CategoryRow__delete' icon={faTimesCircle} color='red' onClick={e => this.context.deleteCategory(categoryId)} />
                     </td>
-                    <td className='CategoryRow__cell CategoryRow__cell--col-3'>{categoryData.categorySpent}</td>
+                    <td className='CategoryRow__cell CategoryRow__cell--col-2'>{categoryData.categorySpent}</td>
                 </tr>
                 {subcategoryRows}
             </tbody>

@@ -1,15 +1,14 @@
 .AddAccountForm {
     display: flex;
     flex-direction: column;
-    width: 150px;
+    width: 250px;
     margin: 50px auto;
     padding: 20px;
-    border: 1px solid black;
-    border-radius: 5px;
 }
 
 .AddAccountForm__title {
     margin: 0;
+    padding-bottom: 10px;
 }
 
 .AddAccountForm__user-inputs {
@@ -17,7 +16,36 @@
     flex-direction: column;
 }
 
+.AddAccountForm__user-input {
+    background: #EDEFF0;
+    border-radius: 4px;
+    border: 1px solid #CDD2D4;
+    box-sizing: border-box;
+    margin: 4px 0 10px 0;
+    padding: .5em;
+    max-width: 400px;
+    width: 100%;
+}
+
 .AddAccountForm__buttons {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column-reverse;
+}
+
+.AddAccountForm__buttons__add {
+    border-radius: 5px;
+    background-color: #19a139;
+    border: none;
+    color: white;
+    height: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 5px;
+    padding: 0 10px;
+    width: 100%;
+}
+
+.AddAccountForm__buttons__add:hover {
+    cursor: pointer;
+    background-color: #12862d;
 }

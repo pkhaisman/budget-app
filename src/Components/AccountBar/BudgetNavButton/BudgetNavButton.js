@@ -7,7 +7,7 @@ class BudgetNavButton extends React.Component {
         return (
             <div className='BudgetNavButton'>
                 <Link to={'/budget'}>
-                    <button>Budget</button>
+                    <button className='BudgetNavButton__button'>Budget</button>
                 </Link>
             </div>
         );

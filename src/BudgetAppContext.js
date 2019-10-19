@@ -4,9 +4,12 @@ const BudgetAppContext = React.createContext({
     accounts:               {},
     categories:             {},
     transactions:           {},
+    allTransactions:        {},
     subCategories:          {},
+    username:               {},
     
     setContext:             () => {},
+    setUser:                () => {},
     
     addAccount:             () => {},
     addCategory:            () => {},

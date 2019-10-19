@@ -25,13 +25,11 @@ class BudgetSummary extends React.Component {
             <div>
                 <ul className='BudgetSummary'>
                     <li className='BudgetSummary__menu'>
-                        <button onClick={this.toggleMenu}>
+                        <button className='BudgetSummary__menu__btn' onClick={this.toggleMenu}>
                             <Menu />  
                         </button>
                     </li>
                     <MonthYear month={this.context.month} year ={this.context.year} />
-                    <li>Data</li>
-                    <li>Data</li>
                 </ul>
                 { this.state.showMenu ? <AccountDropdown /> : null }
             </div>

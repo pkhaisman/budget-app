@@ -8,6 +8,33 @@
     height: 50px;
 }
 
+.AccountSummary__menu__btn {
+    border: none;
+}
+
+.AccountSummary__menu__btn:hover {
+    cursor: pointer;
+}
+
+.AccountSummary__menu__btn:focus {
+    outline: none;
+}
+
+.AccountSummary__add-transaction {
+    border-radius: 5px;
+    background-color: #56abbd;
+    border: none;
+    color: white;
+    height: 25px;
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+.AccountSummary__add-transaction:hover {
+    cursor: pointer;
+    background-color: #207181;
+}
+
 @media screen and (min-width: 800px) {
     .AccountSummary__menu {
         display: none;

@@ -1,32 +1,16 @@
-.subCategoryRow {
-    width: 100%;
-    border-collapse: collapse;
+.SubcategoryRow__cell {
+    padding: 5px 0;
 }
 
-.subCategoryRow__cell {
-    border: 1px solid black;
-    border-collapse: collapse;
-    border-left: none;
+.SubcategoryRow__cell--col-1 {
+    padding-left: 10px;
 }
 
-.subCategoryRow__cell--col-3 {
+.SubcategoryRow__delete {
     display: none;
+    padding: 0 5px;
 }
 
-@media screen and (min-width: 800px) {
-    .subCategoryRow {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    
-    .subCategoryRow__cell {
-        border: 1px solid black;
-        border-collapse: collapse;
-        border-left: none;
-    }
-
-    .subCategoryRow__cell--col-3 {
-        display: table-cell;
-    }
+.SubcategoryRow__cell--col-1:hover .SubcategoryRow__delete {
+    display: inline;
 }
-

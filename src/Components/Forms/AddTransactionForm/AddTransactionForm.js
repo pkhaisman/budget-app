@@ -70,7 +70,7 @@ class AddTransactionForm extends React.Component {
             return <option key={s.subcategoryId} id={s.subcategoryId}>{s.subcategoryName}</option>
         })
         return (
-            <select onChange={e => this.updateTransactionSubcategoryId(e)}>
+            <select className='AddTransactionForm__select-category' onChange={e => this.updateTransactionSubcategoryId(e)}>
                 <option>Select category</option>
                 {categoryOptions}
             </select>
@@ -91,7 +91,7 @@ class AddTransactionForm extends React.Component {
             transactionInflow: 0,
         })
         
-        this.context.addTransaction(transactionDate, transactionPayee, transactionMemo, transactionOutflow, transactionInflow, transactionAccountId, transactionSubcategoryId)
+        this.context.addTransaction(transactionDate, transactionPayee, transactionMemo, transactionOutflow, transactionInflow, transactionAccountId, transactionSubcategoryId, sessionStorage.getItem('userId'))
         this.context.updateSpentAmount(transactionOutflow, transactionInflow, transactionSubcategoryId)
         this.context.updateAccountBalance(transactionAccountId, transactionOutflow, transactionInflow)
         this.props.history.push(`/accounts/${this.state.transactionAccountId}`)
@@ -102,26 +102,35 @@ class AddTransactionForm extends React.Component {
             <form className='AddTransactionForm' onSubmit={e => this.handleSubmit(e)}>
                 <h2 className='AddTransactionForm__title'>Add Transaction</h2>
                 <div className='AddTransactionForm-user-inputs'>
-                    <label htmlFor='transaction-date'>Date</label>
-                    <input type='date' name='transaction-date' id='transaction-date' onChange={e => this.updateTransactionDate(e)}></input> 
-                    <label htmlFor='transaction-payee'>Payee</label>
-                    <input type='text' name='transaction-payee' id='transaction-payee' onChange={e => this.updateTransactionPayee(e)}></input>
-                    <label htmlFor='transaction-category'>
-                        Category
-                        {this.renderCategoryDropDown()}
-                    </label>
-                    <label htmlFor='transaction-memo'>Memo</label>
-                    <input type='text' name='transaction-memo' id='transaction-memo' onChange={e => this.updateTransactionMemo(e)}></input>
-                    <label htmlFor='transaction-outflow'>Outflow</label>
-                    <input type='number' name='transaction-outflow' id='transaction-outflow' onChange={e => this.updateTransactionOutflow(e)}></input>
-                    <label htmlFor='transaction-inflow'>Inflow</label>
-                    <input type='number' name='transaction-inflow' id='transaction-inflow' onChange={e => this.updateTransactionInflow(e)}></input>
+                    <div>
+                        <label htmlFor='transaction-date'>Date</label>
+                        <input className='AddTransactionForm__user-input' type='date' name='transaction-date' id='transaction-date' onChange={e => this.updateTransactionDate(e)}></input> 
+                    </div>
+                    <div>
+                        <label htmlFor='transaction-payee'>Payee</label>
+                        <input className='AddTransactionForm__user-input' type='text' name='transaction-payee' id='transaction-payee' onChange={e => this.updateTransactionPayee(e)}></input>
+                    </div>
+                    <div>
+                        <label className='AddTransactionForm__category' htmlFor='transaction-category'>
+                            <p className='AddTransactionForm__category__title'>Category</p>
+                            <div className='AddTransactionForm__category__options'>{this.renderCategoryDropDown()}</div>
+                        </label>
+                    </div>
+                    <div>
+                        <label htmlFor='transaction-memo'>Memo</label>
+                        <input className='AddTransactionForm__user-input' type='text' name='transaction-memo' id='transaction-memo' onChange={e => this.updateTransactionMemo(e)}></input>
+                    </div>
+                    <div>
+                        <label htmlFor='transaction-outflow'>Outflow</label>
+                        <input className='AddTransactionForm__user-input' type='number' name='transaction-outflow' id='transaction-outflow' onChange={e => this.updateTransactionOutflow(e)}></input>
+                    </div>
+                    <div>
+                        <label htmlFor='transaction-inflow'>Inflow</label>
+                        <input className='AddTransactionForm__user-input' type='number' name='transaction-inflow' id='transaction-inflow' onChange={e => this.updateTransactionInflow(e)}></input>
+                    </div>
                 </div>
                 <div className='AddTransactionForm__buttons'>
-                    <Link to={`/accounts/${this.state.transactionAccountId}`}>
-                        <button>Cancel</button> 
-                    </Link>
-                    <button type='submit'>Add</button>
+                    <button className='AddTransactionForm__buttons__add' type='submit'>Add</button>
                 </div>
             </form>
         );

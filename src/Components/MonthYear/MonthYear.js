@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronCircleLeft, faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
 import BudgetAppContext from '../../BudgetAppContext';
 import './MonthYear.css'
 
@@ -59,11 +61,11 @@ class MonthYear extends React.Component {
         return (
             <div className='MonthYear'>
                 <li>
-                    <button onClick={() => this.context.goToPreviousMonth(prevMonth)}>&#60;</button>
+                    <FontAwesomeIcon className='MonthYear__chevron' icon={faChevronCircleLeft} color='#56abbd' onClick={() => this.context.goToPreviousMonth(prevMonth)} />
                 </li>
-                <li>{currentMonth} {currentYear}</li>
+                <li className='MonthYear__month-year'>{currentMonth} {currentYear}</li>
                 <li>
-                    <button onClick={() => this.context.goToNextMonth(nextMonth)}>&#62;</button>
+                    <FontAwesomeIcon className='MonthYear__chevron' icon={faChevronCircleRight} color='#56abbd' onClick={() => this.context.goToNextMonth(nextMonth)} />
                 </li>
             </div>
         )

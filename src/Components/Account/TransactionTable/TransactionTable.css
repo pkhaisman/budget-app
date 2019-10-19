@@ -4,19 +4,16 @@
 }
 
 .TransactionTable__cell {
-    border: 1px solid black;
+    border: 1px solid rgb(219, 221, 223);
     border-collapse: collapse;
+    border-left: none;
 }
 
 .TransactionTable__cell--no-right-margin {
     border-left: none;
 }
 
-.TransactionTable__cell__col-1 {
-    display: none;
-}
-
-.TransactionTable__cell__col-3 {
+.TransactionTable__cell__col-2 {
     display: none;
 }
 
@@ -31,11 +28,8 @@
     }
     
     .TransactionTable__cell {
-        border: 1px solid black;
+        border: 1px solid rgb(219, 221, 223);
         border-collapse: collapse;
-    }
-    
-    .TransactionTable__cell--no-right-margin {
         border-left: none;
     }
     
@@ -46,6 +40,7 @@
     
     .TransactionTable__cell__col-2 {
         width: 20%;
+        display: table-cell;
     }
     
     .TransactionTable__cell__col-3 {
@@ -60,9 +55,11 @@
     
     .TransactionTable__cell__col-5 {
         width: 10%;
+        display: table-cell;
     }
     
     .TransactionTable__cell__col-6 {
         width: 10%;
+        display: table-cell;
     }
 }

@@ -2,8 +2,20 @@ import TokenService from './token-service'
 import config from '../config'
 
 const ApiService = {
-    getAccounts() {
-        return fetch(`${config.API_ENDPOINT}/accounts`, {
+    getUser(username) {
+        return fetch(`${config.API_ENDPOINT}/users/${username}`, {
+                method: 'GET',
+                headers: {
+                    'content-type': 'application/json',
+                }
+        })
+            .then(res => res.json())
+            .then(user => {
+                return user
+            })
+    },
+    getAccounts(userId) {
+        return fetch(`${config.API_ENDPOINT}/accounts/users/${userId}`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
@@ -22,8 +34,8 @@ const ApiService = {
                 })
             )
     },
-    getTransactions() {
-        return fetch(`${config.API_ENDPOINT}/transactions`, {
+    getTransactions(userId) {
+        return fetch(`${config.API_ENDPOINT}/transactions/users/${userId}`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
@@ -47,8 +59,8 @@ const ApiService = {
                 })
             )
     },
-    getCategories() {
-        return fetch(`${config.API_ENDPOINT}/categories`, {
+    getCategories(userId) {
+        return fetch(`${config.API_ENDPOINT}/categories/users/${userId}`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
@@ -66,8 +78,8 @@ const ApiService = {
                 })    
             )
     },
-    getSubcategories() {
-        return fetch(`${config.API_ENDPOINT}/subcategories`, {
+    getSubcategories(userId) {
+        return fetch(`${config.API_ENDPOINT}/subcategories/users/${userId}`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
@@ -88,8 +100,8 @@ const ApiService = {
                 })    
             )
     },
-    postAccount(name, balance) {
-        return fetch(`${config.API_ENDPOINT}/accounts`, {
+    postAccount(name, balance, userId) {
+        return fetch(`${config.API_ENDPOINT}/accounts/users/${userId}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -110,8 +122,8 @@ const ApiService = {
                 }
             })
     },
-    postTransaction(date, payee, memo, outflow, inflow, account_id, subcategory_id) {
-        return fetch(`${config.API_ENDPOINT}/transactions`, {
+    postTransaction(date, payee, memo, outflow, inflow, account_id, subcategory_id, userId) {
+        return fetch(`${config.API_ENDPOINT}/transactions/users/${userId}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -124,7 +136,7 @@ const ApiService = {
                 outflow,
                 inflow,
                 account_id,
-                subcategory_id
+                subcategory_id,
             })
         })
             .then(res => res.json())
@@ -142,8 +154,8 @@ const ApiService = {
                 }
             })
     },
-    postCategory(name) {
-        return fetch(`${config.API_ENDPOINT}/categories`, {
+    postCategory(name, userId) {
+        return fetch(`${config.API_ENDPOINT}/categories/users/${userId}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -160,8 +172,8 @@ const ApiService = {
                 }
             })
     },
-    postSubcategory(name, budgeted, spent, category_id) {
-        return fetch(`${config.API_ENDPOINT}/subcategories`, {
+    postSubcategory(name, budgeted, spent, category_id, userId) {
+        return fetch(`${config.API_ENDPOINT}/subcategories/users/${userId}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',

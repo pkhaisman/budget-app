@@ -1,6 +1,9 @@
 import config from '../config'
 
 const TokenService = {
+    saveUserId(userId) {
+        window.sessionStorage.setItem('userId', userId)
+    },
     saveAuthToken(token) {
         window.sessionStorage.setItem(config.TOKEN_KEY, token)
     },
@@ -9,6 +12,7 @@ const TokenService = {
     },
     clearAuthToken() {
         window.sessionStorage.removeItem(config.TOKEN_KEY)
+        window.sessionStorage.removeItem('username')
     },
     hasAuthToken() {
         return !!TokenService.getAuthToken()

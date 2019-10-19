@@ -10,14 +10,22 @@ class BudgetPage extends React.Component {
     static contextType = BudgetAppContext
 
     componentDidMount() {
+        let userId = sessionStorage.getItem('userId')
+
         Promise.all([
-            ApiService.getAccounts(),
-            ApiService.getTransactions(),
-            ApiService.getCategories(),
-            ApiService.getSubcategories(),
+            ApiService.getAccounts(userId),
+            ApiService.getTransactions(userId),
+            ApiService.getCategories(userId),
+            ApiService.getSubcategories(userId),
         ])
-            .then(([ accounts, transactions, categories, subcategories ]) => {
-                this.context.setContext(accounts, transactions, categories, subcategories)
+            .then(([ accounts, allTransactions, categories, subcategories ]) => {
+                // if transaction date is of the current month then filter it into transactions
+                const transactions = allTransactions.filter(t => {
+                    const month = new Date(t.transactionDate).getMonth() + 1
+                    const year = new Date(t.transactionDate).getFullYear()
+                    return month === this.context.month && year === this.context.year
+                })
+                this.context.setContext(accounts, allTransactions, transactions, categories, subcategories)
             })
     }
 

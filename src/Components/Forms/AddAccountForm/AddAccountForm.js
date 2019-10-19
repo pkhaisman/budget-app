@@ -36,7 +36,7 @@ class AddAccountForm extends React.Component {
             accountBalance: ''
         })
         
-        this.context.addAccount(accountName, parseInt(accountBalance))
+        this.context.addAccount(accountName, parseInt(accountBalance), sessionStorage.getItem('userId'))
         this.props.history.push('/budget')
     }
 
@@ -46,15 +46,12 @@ class AddAccountForm extends React.Component {
                 <h2 className='AddAccountForm__title'>Add Account</h2>
                 <div className='AddAccountForm-user-inputs'>
                     <label htmlFor='account-name'>Account Name</label>
-                    <input type='text' name='account-name' id='account-name' onChange={e => this.updateAccountName(e)}></input> 
+                    <input className='AddAccountForm__user-input' type='text' name='account-name' id='account-name' onChange={e => this.updateAccountName(e)}></input> 
                     <label htmlFor='account-balance'>Account Balance</label>
-                    <input type='number' name='account-balance' id='account-balance' onChange={e => this.updateAccountBalance(e)}></input>
+                    <input className='AddAccountForm__user-input' type='number' name='account-balance' id='account-balance' onChange={e => this.updateAccountBalance(e)}></input>
                 </div>
                 <div className='AddAccountForm__buttons'>
-                    <Link to={'/accounts'}>
-                        <button>Cancel</button> 
-                    </Link>
-                    <button type='submit'>Add</button>
+                    <button className='AddAccountForm__buttons__add' type='submit'>Add</button>
                 </div>
             </form>
         );

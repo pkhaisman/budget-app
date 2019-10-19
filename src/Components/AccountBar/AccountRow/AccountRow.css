@@ -1,5 +1,44 @@
 .AccountRow {
     display: flex;
     justify-content: space-between;
-    margin: 0 10px;
+    padding: 0 10px;
+    height: 2rem;
+}
+
+.AccountRow:hover {
+    background-color: #207181;
+}
+
+.AccountRow:hover .AccountRow__delete {
+    display: block;
+}
+
+.AccountRow__account {
+    font-size: .95rem;
+    width: 100%;
+    margin-left: 10px;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+.AccountRow__account__name {
+    margin: auto 0;
+}
+
+.AccountRow__account__balance {
+    margin: auto 0;
+}
+
+
+.AccountRow__delete {
+    display: none;
+    height: 1rem;
+    margin: auto 0;
+    border: none;
+}
+
+.AccountRow__delete:hover {
+    cursor: pointer;
 }

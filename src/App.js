@@ -1,5 +1,5 @@
 import React from                       'react';
-import { BrowserRouter } from    'react-router-dom';
+import { BrowserRouter, withRouter } from    'react-router-dom';
 import BudgetAppContext from            './BudgetAppContext.js';
 import ApiService from                  './services/api-service'
 import LoginPage from                   './components/Pages/LoginPage/LoginPage';
@@ -20,19 +20,25 @@ class App extends React.Component {
             accounts: '',
             categories: '',
             transactions: '',
+            allTransactions: '',
             subcategories: '',
+            username: '',
             month: new Date().getMonth() + 1,
             year: new Date().getFullYear()
         }
     }
 
-    setContext = (accounts, transactions, categories, subcategories) => {
+    setContext = (accounts, allTransactions, transactions, categories, subcategories) => {
         this.setState({
             accounts,
             transactions,
+            allTransactions,
             categories,
             subcategories
         })
+    }
+    setUser = (username) => {
+        this.setState({ username })
     }
 
     updateSpentAmount = (outflow, inflow, subcategoryId) => {
@@ -76,10 +82,10 @@ class App extends React.Component {
         ApiService.updateAccountBalance(accountId, newBalance, account.accountName)
     }
 
-    addCategory = (categoryName, parentCategoryId) => {
+    addCategory = (categoryName, parentCategoryId, userId) => {
         // checks if adding category or subcategory based on presence of parentCategoryId
         if (!parentCategoryId) {
-            ApiService.postCategory(categoryName)
+            ApiService.postCategory(categoryName, userId)
                 .then(newCategory => {
                     this.setState({
                         categories: [
@@ -100,7 +106,8 @@ class App extends React.Component {
                 newSubcategory.subcategoryName,
                 newSubcategory.subcategoryBudgeted,
                 newSubcategory.subcategorySpent,
-                newSubcategory.parentCategoryId
+                newSubcategory.parentCategoryId,
+                userId
             )
                 .then(newSubcategory => {
                     this.setState({
@@ -112,8 +119,8 @@ class App extends React.Component {
                 })
         }
     }
-    addAccount = (accountName, accountBalance) => {
-        ApiService.postAccount(accountName, accountBalance)
+    addAccount = (accountName, accountBalance, userId) => {
+        ApiService.postAccount(accountName, accountBalance, userId)
             .then(newAccount => {
                 this.setState({
                     accounts: [
@@ -123,14 +130,24 @@ class App extends React.Component {
                 })
             })
     }
-    addTransaction = (transactionDate, transactionPayee, transactionMemo, transactionOutflow, transactionInflow, transactionAccountId, transactionSubcategoryId) => {
+    addTransaction = (transactionDate, transactionPayee, transactionMemo, transactionOutflow, transactionInflow, transactionAccountId, transactionSubcategoryId, userId) => {
         // convert transactionDate to this format 2019-09-29T00:00:00.000Z
         const formattedDate = transactionDate + 'T00:00:00.000Z'
-        ApiService.postTransaction(formattedDate, transactionPayee, transactionMemo, transactionOutflow, transactionInflow, transactionAccountId, transactionSubcategoryId)
+        ApiService.postTransaction(formattedDate, transactionPayee, transactionMemo, transactionOutflow, transactionInflow, transactionAccountId, transactionSubcategoryId, userId)
             .then(newTransaction => {
+                // if month of new transaction is equal to this.state.month then add transaction to this.state.transactions
+                if (new Date(newTransaction.transactionDate).getMonth() + 1 === this.state.month) {
+                    this.setState({
+                        transactions: [
+                            ...this.state.transactions,
+                            newTransaction
+                        ]
+                    })
+                }
+
                 this.setState({
-                    transactions: [
-                        ...this.state.transactions,
+                    allTransactions: [
+                        ...this.state.allTransactions,
                         newTransaction
                     ]
                 })
@@ -203,43 +220,54 @@ class App extends React.Component {
             })
     }
 
+    filterTransactionsByMonth = () => {
+        const transactions = this.state.allTransactions.filter(t => {
+            const month = new Date(t.transactionDate).getMonth() + 1
+            const year = new Date(t.transactionDate).getFullYear()
+            return month === this.state.month && year === this.state.year
+        })
+
+        this.setState({
+            transactions
+        })
+    }
     goToPreviousMonth = (month) => {
         if (month < 1) {
             this.setState({
                 month: 12,
                 year: this.state.year - 1
-            })
+            }, this.filterTransactionsByMonth())
         } else { 
             this.setState({
                 month
-            })
+            }, this.filterTransactionsByMonth)
         }
         
-        ApiService.getTransactions(month, this.state.year)
-            .then(transactions => {
-                this.setState({
-                    transactions
-                })
-            })
+        // ApiService.getTransactions(month, this.state.year)
+        //     .then(transactions => {
+        //         this.setState({
+        //             transactions
+        //         })
+        //     })
     }
     goToNextMonth = (month) => {
         if (month > 12) {
             this.setState({
                 month: 1,
                 year: this.state.year + 1
-            })
+            }, this.filterTransactionsByMonth)
         } else { 
             this.setState({
                 month
-            })
+            }, this.filterTransactionsByMonth)
         }
 
-        ApiService.getTransactions(month, this.state.year)
-            .then(transactions => {
-                this.setState({
-                    transactions
-                })
-            })
+        // ApiService.getTransactions(month, this.state.year)
+        //     .then(transactions => {
+        //         this.setState({
+        //             transactions
+        //         })
+        //     })
     }
 
     render() {
@@ -247,9 +275,11 @@ class App extends React.Component {
             accounts:               this.state.accounts,
             categories:             this.state.categories,
             transactions:           this.state.transactions,
+            allTransactions:        this.state.allTransactions,
             subcategories:          this.state.subcategories,
             
             setContext:             this.setContext,
+            setUser:                this.setUser,
 
             addAccount:             this.addAccount,
             addCategory:            this.addCategory,
@@ -268,11 +298,6 @@ class App extends React.Component {
             goToNextMonth:          this.goToNextMonth,
             goToPreviousMonth:      this.goToPreviousMonth,
         }
-
-        // TODO: render loading page
-        // if (!this.state.accounts || !this.state.categories) {
-        //     return null;
-        // }
 
         return (
             <BrowserRouter>
@@ -306,4 +331,4 @@ class App extends React.Component {
     }
 }
 
-export default App;
+export default withRouter(App);

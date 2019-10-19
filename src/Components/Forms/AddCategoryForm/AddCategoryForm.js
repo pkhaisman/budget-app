@@ -28,7 +28,7 @@ class AddCategoryForm extends React.Component {
             categoryName: '',
         })
        
-        this.context.addCategory(categoryName, category_id)
+        this.context.addCategory(categoryName, category_id, sessionStorage.getItem('userId'))
         this.props.history.push(`/budget`);
     }
 
@@ -38,13 +38,10 @@ class AddCategoryForm extends React.Component {
                 <h2 className='AddCategoryForm__title'>Add Category</h2>
                 <div className='AddCategoryForm-user-inputs'>
                     <label htmlFor='category-name'>Category Name</label>
-                    <input type='text' name='category-name' id='category-name' onChange={e => this.handleChange(e)}></input> 
+                    <input className='AddCategoryForm__user-input' type='text' name='category-name' id='category-name' onChange={e => this.handleChange(e)}></input> 
                 </div>
                 <div className='AddCategoryForm__buttons'>
-                    <Link to={'/budget'}>
-                        <button>Cancel</button> 
-                    </Link>
-                    <button type='submit'>Add</button>
+                    <button className='AddCategoryForm__buttons__add' type='submit'>Add</button>
                 </div>
             </form>
         );

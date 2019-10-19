@@ -7,7 +7,7 @@ class AddAccountButton extends React.Component {
         return (
             <div className='AddAccountButton'>
                 <Link to={'/add-account'}>
-                    <button>Add Account</button>
+                    <button className='AddAccountButton__button'>Add Account</button>
                 </Link>
             </div>
         );

@@ -1,5 +1,7 @@
 .AccountList {
     display: none;
+    background-color: #2c97ad;
+    color: white;
 }
 
 .AccountList__balance {
@@ -11,8 +13,7 @@
 @media screen and (min-width: 800px) {
     .AccountList {
         display: inline-block;
-        min-width: 200px;
-        border-right: 1px solid black;
+        min-width: 250px;
         height: 100vh;
         padding: 0;
     }

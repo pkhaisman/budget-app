@@ -4,28 +4,39 @@
 }
 
 .CategoryRow__cell {
-    border: 1px solid black;
+    border: 1px solid rgb(219, 221, 223);
     border-collapse: collapse;
     border-left: none;
+    background-color: #e5fbff;
+    padding: 5px 0;
 }
 
-.CategoryRow__cell--col-3 {
+.CategoryRow__cell--col-1 {
+    display: table-cell;
+    padding-left: 10px;
+}
+
+.CategoryRow__cell--col-2 {
+    display: table-cell;
+}
+
+.CategoryRow__add-link {
+    padding: 0 5px;
     display: none;
 }
 
-@media screen and (min-width: 800px) {
-    .CategoryRow {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    
-    .CategoryRow__cell {
-        border: 1px solid black;
-        border-collapse: collapse;
-        border-left: none;
-    }
+.CategoryRow__delete {
+    display: none;
+}
 
-    .CategoryRow__cell--col-3 {
-        display: table-cell;
-    }
+.CategoryRow__delete:hover {
+    cursor: pointer;
+}
+
+.CategoryRow__cell--col-1:hover .CategoryRow__delete {
+    display: inline;
+}
+
+.CategoryRow__cell--col-1:hover .CategoryRow__add-link {
+    display: inline;
 }

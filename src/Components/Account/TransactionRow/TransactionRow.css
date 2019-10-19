@@ -4,8 +4,11 @@
 }
 
 .TransactionRow__cell {
-    border: 1px solid black;
+    border: 1px solid rgb(219, 221, 223);
     border-collapse: collapse;
+    border-left: none;
+    border-right: none;
+    padding: 5px 5px;
 }
 
 .TransactionRow__cell--no-right-margin {
@@ -13,15 +16,25 @@
 }
 
 .TransactionRow__cell__col-1 {
-    display: none;
+    margin-left: 20px;
 }
 
-.TransactionRow__cell__col-3 {
+.TransactionRow__cell__col-2 {
     display: none;
 }
 
 .TransactionRow__cell__col-4 {
     display: none;
+}
+
+.TransactionRow__delete {
+    padding-right: 5px;
+    position: relative;
+    display: none;
+}
+
+.TransactionRow:hover .TransactionRow__delete {
+    display: inline;
 }
 
 @media screen and (min-width: 800px) {
@@ -31,19 +44,17 @@
     }
     
     .TransactionRow__cell {
-        border: 1px solid black;
+        border: 1px solid rgb(219, 221, 223);
         border-collapse: collapse;
+        border-left: none;
+        border-right: none;
     }
     
     .TransactionRow__cell--no-right-margin {
         border-left: none;
     }
 
-    .TransactionRow__cell__col-1 {
-        display: table-cell;
-    }
-    
-    .TransactionRow__cell__col-3 {
+    .TransactionRow__cell__col-2 {
         display: table-cell;
     }
     

@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import AuthApiService from '../../../services/auth-api-service'
 import './SignUpForm.css';
 
@@ -27,18 +27,15 @@ class SignUpForm extends React.Component {
                 <div className='SignUpForm__user-inputs'>
                     <div>
                         <label htmlFor='username'>Username</label>
-                        <input type='text' name='username' id='username' />
+                        <input className='SignUpForm__user-input' type='text' name='username' id='username' />
                     </div>
                     <div>
                         <label htmlFor='password'>Password</label>
-                        <input type='text' name='password' id='password' />
+                        <input className='SignUpForm__user-input' type='text' name='password' id='password' />
                     </div>
                 </div>
                 <div className='SignUpForm__buttons'>
-                    <Link to={'/'}>
-                        <button>Cancel</button>
-                    </Link>
-                    <button type='submit'>Sign Up</button>
+                    <button className='SignUpForm__buttons__signup' type='submit'>Sign Up</button>
                 </div>
             </form>
         );

@@ -1,3 +1,13 @@
 .MonthYear {
     display: flex
 }
+
+.MonthYear__month-year {
+    width: 125px;
+    text-align: center;
+}
+
+.MonthYear__chevron:hover {
+    color: #003540;
+    cursor: pointer;
+}

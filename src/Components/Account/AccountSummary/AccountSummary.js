@@ -28,20 +28,19 @@ class AccountSummary extends React.Component {
             <div>
                 <ul className='AccountSummary'>
                     <li className='AccountSummary__menu'>
-                        <button onClick={this.toggleMenu}>
+                        <button className='AccountSummary__menu__btn' onClick={this.toggleMenu}>
                             <Menu />  
                         </button>
                     </li>
                     <MonthYear month={this.context.month} year={this.context.year} />
                     <li>{account.accountName}</li>
-                    <li>{account.accountBalance}</li>
                     <li>
                         <Link to={`/accounts/${this.props.match.params.account_id}/add-transaction`}>
-                            <button>Add</button>
+                            <button className='AccountSummary__add-transaction'>Add Transaction</button>
                         </Link>
                     </li>
                 </ul>
-                { this.state.showMenu ? <AccountDropdown /> : null }
+                { this.state.showMenu ? <AccountDropdown closeMenu={this.closeMenu} /> : null }
             </div>
         );
     }

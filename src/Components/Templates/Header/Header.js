@@ -11,11 +11,11 @@ class Header extends React.Component {
     render() {
         return (
             <div className='Header'>
-                <Link to={'/'}>
-                    <h1 className='Header__title'>Budget App</h1>
+                <Link className='Header__title' to={'/'}>
+                    <h1 className='Header__title__text'>Budget App</h1>
                 </Link>
                 <Link to={'/'}>
-                    <button onClick={this.handleLogoutClick}>logout</button>
+                    <button className='Header__logout' onClick={this.handleLogoutClick}>Logout</button>
                 </Link>
             </div>
         );

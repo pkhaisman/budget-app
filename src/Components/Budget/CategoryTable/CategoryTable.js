@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlusSquare } from '@fortawesome/free-regular-svg-icons'
 import BudgetAppContext from '../../../BudgetAppContext';
 import CategoryRow from '../CategoryRow/CategoryRow';
 import './CategoryTable.css';
@@ -17,12 +19,14 @@ class CategoryTable extends React.Component {
                 <thead>
                     <tr>
                         <th className='CategoryTable__cell CategoryTable__cell--col-1'>
-                            <p>Category</p>
-                            <Link to={'budget/add-category'}>
-                                <button>+</button>
-                            </Link>
+                            <div className='CategoryTable__cell--flex-container'>
+                                <p>Category</p>
+                                <Link to={'budget/add-category'}>
+                                    <FontAwesomeIcon className='CategoryTable__add' icon={faPlusSquare} color='#2c97ad' />
+                                </Link>
+                            </div>
                         </th>
-                        <th className='CategoryTable__cell CategoryTable__cell--col-3'>Spent</th>
+                        <th className='CategoryTable__cell CategoryTable__cell--col-2'>Spent</th>
                     </tr>
                 </thead>
                 

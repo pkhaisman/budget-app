@@ -9,7 +9,7 @@ class AccountDropdown extends React.Component {
     static contextType = BudgetAppContext
     render() {
         const accountRows = this.context.accounts.map(account => {
-            return <AccountRow key={account.accountId} account={account} />
+            return <AccountRow closeMenu={this.props.closeMenu} key={account.accountId} account={account} />
         });
 
         return (
