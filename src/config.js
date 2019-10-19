@@ -1,6 +1,5 @@
 export default {
     API_ENDPOINT: 'http://localhost:8000/api',
-    // HIDE ME!
-    API_TOKEN: 'd2ef2535-3af3-4259-a80e-705ee5773f59',
-    TOKEN_KEY: 'budget-app-client-token'
+    API_TOKEN: process.env.REACT_APP_API_TOKEN,
+    TOKEN_KEY: process.env.REACT_APP_TOKEN_KEY
 }
