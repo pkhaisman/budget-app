@@ -28,15 +28,35 @@ class App extends React.Component {
         }
     }
 
-    setContext = (accounts, allTransactions, transactions, categories, subcategories) => {
-        this.setState({
-            accounts,
-            transactions,
-            allTransactions,
-            categories,
-            subcategories
-        })
+    componentDidMount() {
+        if (sessionStorage.userId) {
+            let userId = sessionStorage.getItem('userId')
+
+            Promise.all([
+                ApiService.getAccounts(userId),
+                ApiService.getTransactions(userId),
+                ApiService.getCategories(userId),
+                ApiService.getSubcategories(userId),
+            ])
+                .then(([ accounts, allTransactions, categories, subcategories ]) => {
+                    // if transaction date is of the current month then filter it into transactions
+                    const transactions = allTransactions.filter(t => {
+                        const month = new Date(t.transactionDate).getMonth() + 1
+                        const year = new Date(t.transactionDate).getFullYear()
+                        return month === this.context.month && year === this.context.year
+                    })
+                    this.setState({
+                        accounts,
+                        transactions,
+                        allTransactions,
+                        categories,
+                        subcategories
+                    })
+                })
+        }
+
     }
+
     setUser = (username) => {
         this.setState({ username })
     }
@@ -122,11 +142,13 @@ class App extends React.Component {
     addAccount = (accountName, accountBalance, userId) => {
         ApiService.postAccount(accountName, accountBalance, userId)
             .then(newAccount => {
-                this.setState({
-                    accounts: [
-                        ...this.state.accounts,
-                        newAccount
-                    ]
+                this.setState((state) => {
+                    return {
+                        accounts: [
+                            ...state.accounts,
+                            newAccount
+                        ]
+                    }
                 })
             })
     }
