@@ -17,7 +17,7 @@ class CategoryRow extends React.Component {
         const subcategoryRows = this.context.subcategories
             .filter(s => s.parentCategoryId === categoryId)
             .map(s => {
-                let spent = this.context.transactions
+                let spent = this.context.allTransactions
                     .filter(t => t.transactionSubcategoryId === s.subcategoryId && new Date(t.transactionDate).getMonth() + 1 === this.context.month && new Date(t.transactionDate).getFullYear() === this.context.year)
                     .map(t => t.transactionOutflow)
                     .reduce((a, b) => {

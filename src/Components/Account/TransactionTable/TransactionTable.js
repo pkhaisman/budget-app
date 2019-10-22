@@ -12,7 +12,7 @@ class TransactionTable extends React.Component {
         let accountId = this.props.match.params.account_id
 
         // filter transactions by account and month
-        const accountTransactionRows = this.context.transactions
+        const accountTransactionRows = this.context.allTransactions
             .filter(t => t.transactionAccountId === parseInt(accountId) && new Date(t.transactionDate).getMonth() + 1 === this.context.month && new Date(t.transactionDate).getFullYear() === this.context.year)
             .map(t => <TransactionRow key={t.transactionId} transaction={t} />)
 

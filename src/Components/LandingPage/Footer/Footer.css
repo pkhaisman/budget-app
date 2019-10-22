@@ -1,0 +1,12 @@
+.Footer {
+    background-color: #85c3e9;
+    padding: 25px 0;
+    margin-top: 40px;
+}
+
+.Footer__content {
+    margin: 0;
+    padding-left: 40px;
+    color: #003540;
+    font-weight: 500;
+}

@@ -36,9 +36,9 @@ class Header extends React.Component {
 
         return (
             <div className='Header'>
-                <Link className='Header__title' to={'/'}>
-                    <h1 className='Header__title__text'>Budget App</h1>
-                </Link>
+                {/* <Link className='Header__title' to={'/'}> */}
+                    <h1 className='Header__title Header__title__text'>Budget App</h1>
+                {/* </Link> */}
                 {this.renderLoginLogoutButton()}
             </div>
         );

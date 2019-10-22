@@ -346,10 +346,6 @@ class App extends React.Component {
             filterTransactionsByMonth: this.filterTransactionsByMonth,
         }
 
-        // if (!this.context.accounts || !this.context.categories) {
-        //     return null
-        // }
-
         return (
             <BrowserRouter>
                 <main className='App'>
@@ -359,17 +355,10 @@ class App extends React.Component {
                             component={LandingPage} />
                         <PublicRoute path='/login'                    
                             component={LoginPage} />
-
                         <PrivateRoute path='/budget'
                             exact
                             makeApiCalls={this.makeApiCalls}
                             component={BudgetPage} />
-
-                        {/* <PrivateRoute path='/budget'                   
-                            exact 
-                            render1={(routerProps) => {
-                                return <BudgetPage makeApiCalls={this.makeApiCalls} props={routerProps} />
-                            }} /> */}
                         <PublicRoute path='/signup'                   
                             component={SignUpPage} />
                         <PrivateRoute path='/add-account'              

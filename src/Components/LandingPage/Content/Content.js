@@ -10,6 +10,10 @@ class Content extends React.Component {
                 image: <img src={homePage} width='100%' height='auto' alt='' />,
             },
             {
+                title: 'To demo the app login with the following credentials',
+                image: 'Username: `Demo`, Password: `11AAaa!!`',
+            },
+            {
                 title: '1) Click the `+` to add your budget categories!',
                 image: 'After you add a category you will see it on the screen. Next, add a subcategory by clicking the `+` that appears next the category when you hover over it with your mouse',
             },

@@ -154,7 +154,6 @@ class AddTransactionForm extends React.Component {
     }
 
     render() {      
-        console.log(this.context)  
         return (
             <form className='AddTransactionForm' onSubmit={e => this.handleSubmit(e)}>
                 <h2 className='AddTransactionForm__title'>Add Transaction</h2>
