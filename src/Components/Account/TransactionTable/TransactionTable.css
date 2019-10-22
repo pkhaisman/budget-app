@@ -5,6 +5,10 @@
 
 .TransactionTable__cell {
     border: 1px solid rgb(219, 221, 223);
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: left;
+    padding-left: 5px;
     border-collapse: collapse;
     border-left: none;
 }
@@ -54,11 +58,6 @@
     }
     
     .TransactionTable__cell__col-5 {
-        width: 10%;
-        display: table-cell;
-    }
-    
-    .TransactionTable__cell__col-6 {
         width: 10%;
         display: table-cell;
     }

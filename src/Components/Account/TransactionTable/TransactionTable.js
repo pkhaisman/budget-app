@@ -20,13 +20,11 @@ class TransactionTable extends React.Component {
             <table className='TransactionTable'>
                 <thead>
                     <tr>
-                        {/* <th className='TransactionTable__cell TransactionTable__cell--no-border'></th> */}
                         <th className='TransactionTable__cell TransactionTable__cell__col-1 '>Date</th>
                         <th className='TransactionTable__cell TransactionTable__cell__col-2'>Payee</th>
                         <th className='TransactionTable__cell TransactionTable__cell__col-3'>Category</th>
                         <th className='TransactionTable__cell TransactionTable__cell__col-4'>Memo</th>
                         <th className='TransactionTable__cell TransactionTable__cell__col-5'>Outflow</th>
-                        <th className='TransactionTable__cell TransactionTable__cell__col-6'>Inflow</th>
                     </tr>
                 </thead>
                 <tbody>

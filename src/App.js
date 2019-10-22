@@ -57,6 +57,18 @@ class App extends React.Component {
 
     }
 
+    resetState = () => {
+        this.setState({
+            accounts: '',
+            categories: '',
+            transactions: '',
+            allTransactions: '',
+            subcategories: '',
+            username: '',
+            month: new Date().getMonth() + 1,
+            year: new Date().getFullYear()
+        })
+    }
     setUser = (username) => {
         this.setState({ username })
     }
@@ -192,8 +204,8 @@ class App extends React.Component {
     }
     deleteSubcategory = (subcategoryId) => {
         const filteredSubcategories = this.state.subcategories.filter(s => s.subcategoryId !== subcategoryId)
-        const filteredTransactions = this.state.transactions.filter(t => t.transactionSubcategoryId !== subcategoryId)
-        const transactionsToDelete = this.state.transactions.filter(t => t.transactionSubcategoryId === subcategoryId)
+        const filteredTransactions = this.state.allTransactions.filter(t => t.transactionSubcategoryId !== subcategoryId)
+        const transactionsToDelete = this.state.allTransactions.filter(t => t.transactionSubcategoryId === subcategoryId)
         transactionsToDelete.forEach(t => {
             this.updateAccountBalance(t.transactionAccountId, t.transactionInflow, t.transactionOutflow)
         })
@@ -204,40 +216,49 @@ class App extends React.Component {
                     subcategories: [
                         ...filteredSubcategories
                     ],
-                    transactions: [
+                    allTransactions: [
                         ...filteredTransactions
                     ]
                 })
             })
     }
     deleteTransaction = (transactionId) => {
-        const transactionsClone = this.state.transactions
+        const transactionsClone = this.state.allTransactions
         const transaction = transactionsClone.find(t => t.transactionId === transactionId)
         const transactionIndex = transactionsClone.findIndex(t => t.transactionId === transactionId)
         transactionsClone.splice(transactionIndex, 1)
+
+        const filteredTransactionsClone = this.state.transactions
+        const filteredTransactionIndex = filteredTransactionsClone.findIndex(t => t.transactionId === transactionId)
+        filteredTransactionsClone.splice(filteredTransactionIndex, 1)
 
         // updates account balance when transaction deleted. inverts outflow and inflow. see updateAccountBalance function
         this.updateAccountBalance(transaction.transactionAccountId, transaction.transactionInflow, transaction.transactionOutflow)
 
         ApiService.deleteTransaction(transactionId)
         this.setState({
-            transactions: [
+            allTransactions: [
                 ...transactionsClone
+            ],
+            transactions: [
+                ...filteredTransactionsClone
             ]
         })
     }
     deleteAccount = (accountId) => {
         const filteredAccounts = this.state.accounts.filter(a => a.accountId !== accountId)
-        const filteredTransactions = this.state.transactions.filter(t => t.transactionAccountId !== accountId)
+        const filteredTransactions = this.state.allTransactions.filter(t => t.transactionAccountId !== accountId)
         ApiService.deleteAccount(accountId)
             .then(() => {
+                this.props.history.push('/budget')
                 this.setState({
-                    transactions: [
+                    allTransactions: [
                         ...filteredTransactions
                     ],
                     accounts: [
                         ...filteredAccounts
-                    ]
+                    ],
+                    transactions: ''
                 })
             })
     }
@@ -301,6 +322,7 @@ class App extends React.Component {
             subcategories:          this.state.subcategories,
             
             setContext:             this.setContext,
+            resetState:             this.resetState,
             setUser:                this.setUser,
 
             addAccount:             this.addAccount,
@@ -319,7 +341,12 @@ class App extends React.Component {
             year:                   this.state.year,
             goToNextMonth:          this.goToNextMonth,
             goToPreviousMonth:      this.goToPreviousMonth,
+            filterTransactionsByMonth: this.filterTransactionsByMonth,
         }
+
+        // if (!this.context.accounts || !this.context.categories) {
+        //     return null
+        // }
 
         return (
             <BrowserRouter>

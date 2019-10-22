@@ -1,7 +1,7 @@
 .BudgetNavButton {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    /* margin-top: 20px; */
 }
 
 .BudgetNavButton__button {
@@ -17,4 +17,10 @@
 .BudgetNavButton__button:hover {
     cursor: pointer;
     background-color: #207181;
+}
+
+@media screen and (min-width: 800px) {
+    .BudgetNavButton {
+        margin-top: 20px;
+    }
 }

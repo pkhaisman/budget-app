@@ -9,8 +9,8 @@ import './AccountSummary.css';
 class AccountSummary extends React.Component {
     static contextType = BudgetAppContext
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             showMenu: false,
         }
@@ -22,7 +22,12 @@ class AccountSummary extends React.Component {
     }
 
     render() {
+        // if there are no accounts then render null
         const account = this.context.accounts.find(a => a.accountId === parseInt(this.props.match.params.account_id))
+        
+        if (!account) {
+            return null
+        }
 
         return (
             <div>
@@ -40,7 +45,7 @@ class AccountSummary extends React.Component {
                         </Link>
                     </li>
                 </ul>
-                { this.state.showMenu ? <AccountDropdown closeMenu={this.closeMenu} /> : null }
+                { this.state.showMenu ? <AccountDropdown toggleMenu={this.toggleMenu} /> : null }
             </div>
         );
     }

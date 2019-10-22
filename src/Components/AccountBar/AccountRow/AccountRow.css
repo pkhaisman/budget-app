@@ -13,16 +13,6 @@
     display: block;
 }
 
-.AccountRow__account {
-    font-size: .95rem;
-    width: 100%;
-    margin-left: 10px;
-    text-decoration: none;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-}
-
 .AccountRow__account__name {
     margin: auto 0;
 }
@@ -30,7 +20,6 @@
 .AccountRow__account__balance {
     margin: auto 0;
 }
-
 
 .AccountRow__delete {
     display: none;
@@ -41,4 +30,26 @@
 
 .AccountRow__delete:hover {
     cursor: pointer;
+}
+
+.AccountRow__account {
+    font-size: .95rem;
+    width: 200px;
+    margin: auto;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (min-width: 800px) {
+    .AccountRow__account {
+        font-size: .95rem;
+        width: 100%;
+        margin-left: 10px;
+        text-decoration: none;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+    }
 }

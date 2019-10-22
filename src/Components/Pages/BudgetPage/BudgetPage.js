@@ -10,7 +10,7 @@ class BudgetPage extends React.Component {
     
     render() {
         if (!this.context.accounts || !this.context.categories) {
-            return null;
+            return null
         }
         
         return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import BudgetAppContext from '../../../BudgetAppContext';
+import ValidationError from '../../ValidationError/ValidationError';
 import './AddCategoryForm.css';
 
 class AddCategoryForm extends React.Component {
@@ -9,15 +10,39 @@ class AddCategoryForm extends React.Component {
         super(props)
         this.state = {
             categoryName: null,
+            nameValid: false,
+            validationMessages: {
+                required: ''
+            },
+            formValid: false
         }
     }
 
-    handleChange = (e) => {
-        e.preventDefault()
-        this.setState({
-            categoryName: e.target.value,
-        })
+    handleChange = (categoryName) => {
+        this.setState({ categoryName }, () => this.validateName(categoryName))
     }
+
+    validateName = (fieldValue) => {
+        let errorMessages = {...this.state.validationMessages}
+        let hasError = false
+
+        if (fieldValue.trim().length === 0) {
+        errorMessages.required = 'Input is required';
+            hasError = true;
+        }
+
+        this.setState({
+            nameValid: !hasError,
+            validationMessages: errorMessages
+        }, this.formValid)
+    }
+
+    formValid = () => {
+        const { nameValid } = this.state;
+        this.setState({
+            formValid: nameValid
+        });
+    }    
 
     handleSubmit = (e) => {
         e.preventDefault()
@@ -38,10 +63,11 @@ class AddCategoryForm extends React.Component {
                 <h2 className='AddCategoryForm__title'>Add Category</h2>
                 <div className='AddCategoryForm-user-inputs'>
                     <label htmlFor='category-name'>Category Name</label>
-                    <input className='AddCategoryForm__user-input' type='text' name='category-name' id='category-name' onChange={e => this.handleChange(e)}></input> 
+                    <input className='AddCategoryForm__user-input' type='text' name='category-name' id='category-name' onChange={e => this.handleChange(e.target.value)}></input> 
+                    <ValidationError hasError={!this.state.nameValid} message={this.state.validationMessages.required} />
                 </div>
                 <div className='AddCategoryForm__buttons'>
-                    <button className='AddCategoryForm__buttons__add' type='submit'>Add</button>
+                    <button className='AddCategoryForm__buttons__add' type='submit' disabled={!this.state.formValid}>Add</button>
                 </div>
             </form>
         );

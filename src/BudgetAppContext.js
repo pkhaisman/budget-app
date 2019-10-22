@@ -9,6 +9,7 @@ const BudgetAppContext = React.createContext({
     username:               {},
     
     setContext:             () => {},
+    resetState:              () => {},
     setUser:                () => {},
     
     addAccount:             () => {},
@@ -27,6 +28,7 @@ const BudgetAppContext = React.createContext({
     year: {},
     goToNextMonth: () => {},
     goToPreviousMonth: () => {},
+    filterTransactionsByMonth: () => {},
 });
 
 export default BudgetAppContext;

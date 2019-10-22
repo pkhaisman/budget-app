@@ -1,11 +1,30 @@
 .Content__title {
     text-align: center;
+    color: #003540;
+    font-size: 2rem;
 }
 
 .Content__container {
     display: flex;
     flex-direction: column;
+    color: #003540;
     align-items: center;
+    
+}
+
+.Content__container__section {
+    width: 80%;
+    margin: 20px 0;
+}
+
+.Content__container__section__title {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.Content__container__section__content {
+    font-size: 1.2rem;
+    font-weight: 500;
 }
 
 @media screen and (min-width: 800px) {
@@ -15,7 +34,7 @@
     
     .Content__container {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-around;
     }
 }

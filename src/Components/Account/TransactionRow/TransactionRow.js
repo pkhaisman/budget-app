@@ -20,7 +20,7 @@ class TransactionRow extends React.Component {
     }
     
     render() {
-        let { transactionId, transactionDate, transactionPayee, transactionMemo, transactionOutflow, transactionInflow, transactionSubcategoryId } = this.props.transaction;
+        let { transactionId, transactionDate, transactionPayee, transactionMemo, transactionOutflow, transactionSubcategoryId } = this.props.transaction;
         let transactionCategory
         this.context.subcategories.forEach(s => {
             if (s.subcategoryId === transactionSubcategoryId) {
@@ -41,7 +41,6 @@ class TransactionRow extends React.Component {
                 <td className='TransactionRow__cell TransactionRow__cell__col-3'>{transactionCategory}</td>
                 <td className='TransactionRow__cell TransactionRow__cell__col-4'>{transactionMemo}</td>
                 <td className='TransactionRow__cell TransactionRow__cell__col-5'>{transactionOutflow}</td>
-                <td className='TransactionRow__cell TransactionRow__cell__col-6'>{transactionInflow}</td>
             </tr>
         );
     }

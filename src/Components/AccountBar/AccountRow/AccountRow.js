@@ -7,6 +7,7 @@ import './AccountRow.css';
 
 class AccountRow extends React.Component {
     static contextType = BudgetAppContext
+
     render() {
         const { accountId, accountName, accountBalance } = this.props.account
 
