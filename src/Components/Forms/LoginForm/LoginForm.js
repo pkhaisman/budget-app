@@ -73,7 +73,7 @@ class LoginForm extends React.Component {
                     </div>
                     <div>
                         <label className='LoginForm__user-label' htmlFor='password'>Password</label>
-                        <input className='LoginForm__user-input' type='text' name='password' id='password' onChange={(e) => this.updatePassword(e.target.value)} />
+                        <input className='LoginForm__user-input' type='password' name='password' id='password' onChange={(e) => this.updatePassword(e.target.value)} />
                     </div>
                 </div>
                 <ValidationError hasError={!this.state.formValid} message={this.state.validationMessages.invalidCreds} />

@@ -7,7 +7,7 @@ class Content extends React.Component {
         const contentData = [
             {
                 title: 'Home Page',
-                image: <img src={homePage} width='100%' height='auto' />,
+                image: <img src={homePage} width='100%' height='auto' alt='' />,
             },
             {
                 title: '1) Click the `+` to add your budget categories!',

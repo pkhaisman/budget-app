@@ -28,33 +28,35 @@ class App extends React.Component {
         }
     }
 
+    makeApiCalls = () => {
+        let userId = sessionStorage.getItem('userId')
+        Promise.all([
+            ApiService.getAccounts(userId),
+            ApiService.getTransactions(userId),
+            ApiService.getCategories(userId),
+            ApiService.getSubcategories(userId),
+        ])
+            .then(([ accounts, allTransactions, categories, subcategories ]) => {
+                // if transaction date is of the current month then filter it into transactions
+                const transactions = allTransactions.filter(t => {
+                    const month = new Date(t.transactionDate).getMonth() + 1
+                    const year = new Date(t.transactionDate).getFullYear()
+                    return month === this.context.month && year === this.context.year
+                })
+                this.setState({
+                    accounts,
+                    transactions,
+                    allTransactions,
+                    categories,
+                    subcategories
+                })
+            })
+    }
+
     componentDidMount() {
         if (sessionStorage.userId) {
-            let userId = sessionStorage.getItem('userId')
-
-            Promise.all([
-                ApiService.getAccounts(userId),
-                ApiService.getTransactions(userId),
-                ApiService.getCategories(userId),
-                ApiService.getSubcategories(userId),
-            ])
-                .then(([ accounts, allTransactions, categories, subcategories ]) => {
-                    // if transaction date is of the current month then filter it into transactions
-                    const transactions = allTransactions.filter(t => {
-                        const month = new Date(t.transactionDate).getMonth() + 1
-                        const year = new Date(t.transactionDate).getFullYear()
-                        return month === this.context.month && year === this.context.year
-                    })
-                    this.setState({
-                        accounts,
-                        transactions,
-                        allTransactions,
-                        categories,
-                        subcategories
-                    })
-                })
+            this.makeApiCalls()
         }
-
     }
 
     resetState = () => {
@@ -357,9 +359,17 @@ class App extends React.Component {
                             component={LandingPage} />
                         <PublicRoute path='/login'                    
                             component={LoginPage} />
-                        <PrivateRoute path='/budget'                   
-                            exact 
+
+                        <PrivateRoute path='/budget'
+                            exact
+                            makeApiCalls={this.makeApiCalls}
                             component={BudgetPage} />
+
+                        {/* <PrivateRoute path='/budget'                   
+                            exact 
+                            render1={(routerProps) => {
+                                return <BudgetPage makeApiCalls={this.makeApiCalls} props={routerProps} />
+                            }} /> */}
                         <PublicRoute path='/signup'                   
                             component={SignUpPage} />
                         <PrivateRoute path='/add-account'              

@@ -94,7 +94,7 @@ class SignUpForm extends React.Component {
                     </div>
                     <div>
                         <label htmlFor='password'>Password</label>
-                        <input className='SignUpForm__user-input' type='text' name='password' id='password' onChange={(e) => this.updatePassword(e.target.value)} />
+                        <input className='SignUpForm__user-input' type='password' name='password' id='password' onChange={(e) => this.updatePassword(e.target.value)} />
                         <ValidationError hasError={this.state.displayMessage} message={this.state.validationMessages.password} />
                     </div>
                 </div>

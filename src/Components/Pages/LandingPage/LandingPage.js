@@ -1,6 +1,5 @@
 import React from 'react';
 import Hero from '../../LandingPage/Hero/Hero';
-import NavBar from '../../LandingPage/NavBar/NavBar';
 import Header from '../../Templates/Header/Header';
 import Content from '../../LandingPage/Content/Content';
 import './LandingPage.css';

@@ -7,6 +7,13 @@ import './BudgetPage.css';
 
 class BudgetPage extends React.Component {
     static contextType = BudgetAppContext
+
+    componentDidMount() {
+        if (!this.context.accounts || !this.context.categories) {
+            console.log('making calls')
+            this.props.makeApiCalls()
+        }
+    }
     
     render() {
         if (!this.context.accounts || !this.context.categories) {
