@@ -8,8 +8,8 @@ https://budget-app.pkhaisman.now.sh
 
 ## Demo the App
 
-Demo Username: Demo
-Demo Password: 11AAaa!!
+* Demo Username: Demo
+* Demo Password: 11AAaa!!
 
 ## Screenshots
 
