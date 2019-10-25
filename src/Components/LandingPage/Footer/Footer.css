@@ -1,7 +1,17 @@
 .Footer {
     background-color: #85c3e9;
+    color: #003540;
     padding: 25px 0;
     margin-top: 40px;
+}
+
+.Footer__link {
+    font-weight: 800;
+    color: #003540;;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .Footer__content {
