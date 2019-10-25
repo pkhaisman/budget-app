@@ -63,7 +63,6 @@ class SignUpForm extends React.Component {
             password: password.value,
         })
             .then((res) => {
-                console.log(res.error)
                 res.error 
                     ? this.renderError(res.error)
                     : this.setState({

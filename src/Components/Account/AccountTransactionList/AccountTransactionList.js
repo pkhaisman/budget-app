@@ -10,6 +10,7 @@ class AccountTransactionList extends React.Component {
     componentDidMount() {
         this.context.filterTransactionsByMonth()
     }
+    
     render() {
         return (
             <div className='AccountTransactionList'>
@@ -18,6 +19,11 @@ class AccountTransactionList extends React.Component {
             </div>
         );
     }
+}
+
+// needed for component smoke test to pass
+AccountTransactionList.contextTypes = {
+    filterTransactionsByMonth: () => {}
 }
 
 export default AccountTransactionList;

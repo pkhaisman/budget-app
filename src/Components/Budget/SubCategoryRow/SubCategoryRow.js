@@ -16,7 +16,7 @@ class SubcategoryRow extends React.Component {
                     {subcategoryName}
                     <FontAwesomeIcon className='SubcategoryRow__delete' icon={faTimesCircle} color='red' onClick={e => this.context.deleteSubcategory(subcategoryId)} />
                 </td>
-                <td className='SubcategoryRow__cell SubcategoryRow__cell--col-2'>{subcategorySpent}</td>
+                <td className='SubcategoryRow__cell SubcategoryRow__cell--col-2'>${subcategorySpent}</td>
             </tr>
         );
     }

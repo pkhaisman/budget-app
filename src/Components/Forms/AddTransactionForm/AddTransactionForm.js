@@ -186,6 +186,7 @@ class AddTransactionForm extends React.Component {
                 </div>
                 <div className='AddTransactionForm__buttons'>
                     <button className='AddTransactionForm__buttons__add' type='submit' disabled={!this.state.formValid}>Add</button>
+                    <button className='AddTransactionForm__buttons__cancel' type='button' onClick={(e) => this.props.history.goBack()}>Cancel</button>
                 </div>
             </form>
         );

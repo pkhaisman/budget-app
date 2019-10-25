@@ -10,7 +10,6 @@ class BudgetPage extends React.Component {
 
     componentDidMount() {
         if (!this.context.accounts || !this.context.categories) {
-            console.log('making calls')
             this.props.makeApiCalls()
         }
     }

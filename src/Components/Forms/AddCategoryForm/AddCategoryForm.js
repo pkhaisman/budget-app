@@ -68,6 +68,7 @@ class AddCategoryForm extends React.Component {
                 </div>
                 <div className='AddCategoryForm__buttons'>
                     <button className='AddCategoryForm__buttons__add' type='submit' disabled={!this.state.formValid}>Add</button>
+                    <button className='AddCategoryForm__buttons__cancel' type='button' onClick={(e) => this.props.history.goBack()}>Cancel</button>
                 </div>
             </form>
         );

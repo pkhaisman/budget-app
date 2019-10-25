@@ -46,4 +46,9 @@ class TransactionRow extends React.Component {
     }
 }
 
+// needed for component smoke test to pass
+TransactionRow.contextTypes = {
+    subcategories: []
+}
+
 export default TransactionRow;

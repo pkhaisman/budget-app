@@ -52,12 +52,18 @@ class CategoryRow extends React.Component {
                         </Link>
                         <FontAwesomeIcon className='CategoryRow__delete' icon={faTimesCircle} color='red' onClick={e => this.context.deleteCategory(categoryId)} />
                     </td>
-                    <td className='CategoryRow__cell CategoryRow__cell--col-2'>{categoryData.categorySpent}</td>
+                    <td className='CategoryRow__cell CategoryRow__cell--col-2'>${categoryData.categorySpent}</td>
                 </tr>
                 {subcategoryRows}
             </tbody>
         );
     }
+}
+
+// needed for component smoke test to pass
+CategoryRow.contextTypes = {
+    subcategories: [],
+    allTransactions: [],
 }
 
 export default CategoryRow;

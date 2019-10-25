@@ -92,6 +92,7 @@ class AddAccountForm extends React.Component {
                 </div>
                 <div className='AddAccountForm__buttons'>
                     <button className='AddAccountForm__buttons__add' type='submit' disabled={!this.state.formValid}>Add</button>
+                    <button className='AddAccountForm__buttons__cancel' type='button' onClick={(e) => this.props.history.goBack()}>Cancel</button>
                 </div>
             </form>
         );

@@ -36,4 +36,9 @@ class CategoryTable extends React.Component {
     }
 }
 
+// needed for component smoke test to pass
+CategoryTable.contextTypes = {
+    categories: []
+}
+
 export default CategoryTable;

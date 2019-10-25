@@ -16,7 +16,7 @@ class AccountRow extends React.Component {
                 <FontAwesomeIcon icon={faTimesCircle} color='red' className='AccountRow__delete' onClick={e => this.context.deleteAccount(accountId)} />
                 <Link className='AccountRow__account' to={`/accounts/${accountId}`}>
                     <p className='AccountRow__account__name'>{accountName}</p>
-                    <p className='AccountRow__account__balance'>{accountBalance}</p>
+                    <p className='AccountRow__account__balance'>${accountBalance}</p>
                 </Link>
             </div>
         );

@@ -22,4 +22,9 @@ class AccountDropdown extends React.Component {
     }
 }
 
+// needed for component smoke test to pass
+AccountDropdown.contextTypes = {
+    accounts: []
+}
+
 export default AccountDropdown;

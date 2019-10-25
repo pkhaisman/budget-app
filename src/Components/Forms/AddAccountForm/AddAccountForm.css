@@ -29,7 +29,7 @@
 
 .AddAccountForm__buttons {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
 }
 
 .AddAccountForm__buttons__add {
@@ -45,7 +45,25 @@
     width: 100%;
 }
 
+.AddAccountForm__buttons__cancel {
+    border-radius: 5px;
+    background-color: #f44336;
+    border: none;
+    color: white;
+    height: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 5px;
+    padding: 0 10px;
+    width: 100%;
+}
+
 .AddAccountForm__buttons__add:hover {
     cursor: pointer;
     background-color: #12862d;
+}
+
+.AddAccountForm__buttons__cancel:hover {
+    cursor: pointer;
+    background-color: #db3b30;
 }

@@ -23,13 +23,18 @@ class AccountList extends React.Component {
                 <BudgetNavButton />
                 <div className='AccountList__balance'>
                     <p>Balance</p>
-                    <p>{balance}</p>
+                    <p>${balance}</p>
                 </div>
                 {accountRows}
                 <AddAccountButton />
             </div>
         );
     }
+}
+
+// needed for component smoke test to pass
+AccountList.contextTypes = {
+    accounts: []
 }
 
 export default AccountList;
