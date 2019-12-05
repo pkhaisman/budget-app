@@ -6,14 +6,14 @@ Track your spending!
 
 https://budget-app.pkhaisman.now.sh
 
+## API
+
+https://github.com/pkhaisman/budget-app-server
+
 ## Demo the App
 
 * Demo Username: Demo
 * Demo Password: 11AAaa!!
-
-## API
-
-https://github.com/pkhaisman/budget-app-server
 
 ## Screenshots
 
