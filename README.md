@@ -15,7 +15,7 @@ https://budget-app.pkhaisman.now.sh
 
 ### Landing Page - Desktop
 
-![Landing Page: Desktop view](https://raw.githubusercontent.com/pkhaisman/budget-app/master/src/photos/budget-page.png)
+![Landing Page: Desktop view](https://raw.githubusercontent.com/pkhaisman/budget-app/master/src/photos/landing-page.png)
 
 ### Budget Page - Desktop
 
@@ -23,7 +23,7 @@ https://budget-app.pkhaisman.now.sh
 
 ### Account Page - Desktop
 
-![Account Page: Desktop view](https://raw.githubusercontent.com/pkhaisman/budget-app/master/src/photos/budget-page.png)
+![Account Page: Desktop view](https://raw.githubusercontent.com/pkhaisman/budget-app/master/src/photos/account-page.png)
 
 ## Built With
 
