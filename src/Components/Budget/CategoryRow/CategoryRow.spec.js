@@ -10,6 +10,7 @@ it('renders without crashing', () => {
     const category = testData.categories
     const subcategories = testData.subcategories
     const allTransactions = testData.allTransactions
+    
     const context = { 
         subcategories: [subcategories],
         allTransactions: [allTransactions]

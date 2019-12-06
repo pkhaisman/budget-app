@@ -8,6 +8,9 @@ class LoginPage extends React.Component {
         return (
             <div className='LoginPage'>
                 <Header />
+                {this.props.location.state
+                    ? this.props.location.state.from === 'signup' ? <p className='LoginPage__message'>Account created!</p> : null
+                    : null}
                 <LoginForm />
             </div>
         );

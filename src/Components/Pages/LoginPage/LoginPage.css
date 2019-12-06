@@ -1,0 +1,9 @@
+.LoginPage__message {
+    width: 250px;
+    padding: 0 20px;
+    position: absolute;
+    left: calc(50% - 145px);
+    color: #4CAF50;
+    top: 115px;
+    font-weight: 600;
+}

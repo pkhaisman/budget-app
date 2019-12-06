@@ -27,7 +27,7 @@ class LoginForm extends React.Component {
 
     updateUsername = (username) => { this.setState({ username }, () => this.validateForm()) }
 
-    updatePassword = (password) => { this.setState({ password }, () => this.validateForm())}
+    updatePassword = (password) => { this.setState({ password }, () => this.validateForm()) }
 
     validateForm = () => {
         this.state.username && this.state.password 

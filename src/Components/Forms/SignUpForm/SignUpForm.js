@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import AuthApiService from '../../../services/auth-api-service'
 import ValidationError from '../../ValidationError/ValidationError'
 import './SignUpForm.css';
@@ -12,6 +12,7 @@ class SignUpForm extends React.Component {
             password: '',
             formValid: false,
             displayMessage: false,
+            toLogin: false,
             validationMessages: {
                 username: '',
                 password: '',
@@ -19,9 +20,9 @@ class SignUpForm extends React.Component {
         }
     }
 
-    updateUsername = (username) => { this.setState({ username }, () => this.validateForm()) }
+    updateUsername = (username) => { this.setState({ username, validationMessages: { username: '' } }, () => this.validateForm()) }
 
-    updatePassword = (password) => { this.setState({ password }, () => this.validateForm()) }
+    updatePassword = (password) => { this.setState({ password, validationMessages: { password: '' }  }, () => this.validateForm()) }
 
     validateForm = () => {
         this.state.username && this.state.password 
@@ -53,11 +54,6 @@ class SignUpForm extends React.Component {
         e.preventDefault()
         const { username, password } = e.target
 
-        this.setState({
-            username: '',
-            password: ''
-        })
-
         AuthApiService.postUser({
             username: username.value,
             password: password.value,
@@ -66,15 +62,14 @@ class SignUpForm extends React.Component {
                 res.error 
                     ? this.renderError(res.error)
                     : this.setState({
+                        username: '',
+                        password: '',
+                        toLogin: true,
                         validationMessages: {
                             username: '',
                             password: ''
                         }
                     })
-                // if there are no error messages then redirect
-                if (!this.state.validationMessages.username && !this.state.validationMessages.password) {
-                    this.props.history.push('/budget')
-                }
             })
             .catch(() => {
                 console.log('error')
@@ -82,6 +77,14 @@ class SignUpForm extends React.Component {
     }
 
     render() {
+        // if there are no error messages then redirect
+        if (this.state.toLogin) {
+            return <Redirect to={{
+                pathname: '/login',
+                state: { from: 'signup' }
+            }} />
+        }
+
         return (
             <form className='SignUpForm' onSubmit={this.handleSubmit}>
                 <h2 className='SignUpForm__title'>Sign Up</h2>

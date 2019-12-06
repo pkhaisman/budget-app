@@ -13,20 +13,28 @@ class Header extends React.Component {
     }
 
     // show/ hide logout button if/if not user
-    renderLoginLogoutButton = () => {
+    renderHeader = () => {
         const user = sessionStorage.getItem('userId')
 
         if (!user) {
             return (
-                <Link to={'/login'}>
-                    <button className='Header__logout'>Login</button>
-                </Link>
+                <div className='Header'>
+                    <Link className='Header__title' to={'/'}>
+                        <h1 className='Header__title Header__title__text'>Budget App</h1>
+                    </Link>
+                    <Link to={'/login'}>
+                        <button className='Header__logout'>Login</button>
+                    </Link>
+                </div>
             )
         } else {
             return (
-                <Link to={'/'}>
-                        <button className='Header__logout' onClick={this.handleLogoutClick}>Logout</button>
-                </Link>
+                <div className='Header'>
+                    <h1 className='Header__title Header__title__text'>Budget App</h1>
+                    <Link to={'/'}>
+                            <button className='Header__logout' onClick={this.handleLogoutClick}>Logout</button>
+                    </Link>
+                </div>
             )
         }
     }
@@ -35,11 +43,8 @@ class Header extends React.Component {
     render() {
 
         return (
-            <div className='Header'>
-                {/* <Link className='Header__title' to={'/'}> */}
-                    <h1 className='Header__title Header__title__text'>Budget App</h1>
-                {/* </Link> */}
-                {this.renderLoginLogoutButton()}
+            <div>
+                {this.renderHeader()}
             </div>
         );
     }
