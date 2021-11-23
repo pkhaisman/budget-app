@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import AuthApiService from '../../../services/auth-api-service'
 import ValidationError from '../../ValidationError/ValidationError'
+import HelperMessage from '../../HelperMessage/HelperMessage';
 import './SignUpForm.css';
 
 class SignUpForm extends React.Component {
@@ -15,20 +16,65 @@ class SignUpForm extends React.Component {
             toLogin: false,
             validationMessages: {
                 username: '',
-                password: '',
+                password: [],
             }
         }
     }
 
-    updateUsername = (username) => { this.setState({ username, validationMessages: { username: '' } }, () => this.validateForm()) }
+    updateUsername = (username) => { 
+        this.setState({ username }, () => this.validateForm()) 
+    }
 
-    updatePassword = (password) => { this.setState({ password, validationMessages: { password: '' }  }, () => this.validateForm()) }
+    updatePassword = (password) => { 
+        this.setState({ password }, () => this.validatePassword()) 
+    }
 
     validateForm = () => {
-        this.state.username && this.state.password 
-            ? this.setState({ formValid: true })
-            : this.setState({ formValid: false }) 
+        if (this.state.validationMessages.password.length === 0 && this.state.password && this.state.username) {
+            this.setState({ formValid: true })
+        } else {
+            this.setState({ formValid: false })
+        }
     }
+
+    validatePassword = () => {
+        const hasNum = /\d/
+        const hasUpper = /[A-Z]/
+        const hasLower = /[a-z]/
+        const hasSymbol = /.*\W/
+        let passwordHelperMessages = []
+
+        if (this.state.password.startsWith(' ') || this.state.password.endsWith(' ')) {
+            passwordHelperMessages.push('Password cannot begin or end with spaces')
+        }
+
+        if (this.state.password.length < 8) {
+            passwordHelperMessages.push('Password must be longer than 8 characters')
+        }
+
+        if (this.state.password.length > 72) {
+            passwordHelperMessages.push('Password must be less than 72 characters')
+        }
+
+        if (!hasNum.test(this.state.password)) {
+            passwordHelperMessages.push('Password must have a number')
+        }
+        
+        if (!hasUpper.test(this.state.password)) {
+            passwordHelperMessages.push('Password must have an upper case letter')
+        }
+
+        if (!hasLower.test(this.state.password)) {
+            passwordHelperMessages.push('Password must have a lower case letter')
+        }
+        
+        if (!hasSymbol.test(this.state.password)) {
+            passwordHelperMessages.push('Password must have a symbol')
+        }
+
+        this.setState({ validationMessages: { password: passwordHelperMessages } }, () => this.validateForm())
+
+    };
 
     renderError = (error) => {
         // if error includes username then set username error message
@@ -36,14 +82,6 @@ class SignUpForm extends React.Component {
             this.setState({
                 validationMessages: {
                     username: error
-                },
-                displayMessage: true,
-            })
-        // else if error includes password then set the password error message
-        } else if (error.includes('Password')) {
-            this.setState({
-                validationMessages: {
-                    password: error
                 },
                 displayMessage: true,
             })
@@ -67,7 +105,7 @@ class SignUpForm extends React.Component {
                         toLogin: true,
                         validationMessages: {
                             username: '',
-                            password: ''
+                            password: []
                         }
                     })
             })
@@ -85,6 +123,10 @@ class SignUpForm extends React.Component {
             }} />
         }
 
+        const passwordHelperMessages = this.state.validationMessages.password.map(m => {
+            return <HelperMessage message={m} password={this.state.password} />
+        });
+
         return (
             <form className='SignUpForm' onSubmit={this.handleSubmit}>
                 <h2 className='SignUpForm__title'>Sign Up</h2>
@@ -97,7 +139,8 @@ class SignUpForm extends React.Component {
                     <div>
                         <label htmlFor='password'>Password</label>
                         <input className='SignUpForm__user-input' type='password' name='password' id='password' onChange={(e) => this.updatePassword(e.target.value)} />
-                        <ValidationError hasError={this.state.displayMessage} message={this.state.validationMessages.password} />
+                        {passwordHelperMessages}
+                        {/* <ValidationError hasError={this.state.displayMessage} message={this.state.validationMessages.password} /> */}
                     </div>
                 </div>
                 <div className='SignUpForm__buttons'>
