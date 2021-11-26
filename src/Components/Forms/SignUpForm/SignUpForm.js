@@ -3,6 +3,7 @@ import { withRouter, Redirect } from 'react-router-dom';
 import AuthApiService from '../../../services/auth-api-service'
 import ValidationError from '../../ValidationError/ValidationError'
 import HelperMessage from '../../HelperMessage/HelperMessage';
+import Loader from '../../Loader/Loader';
 import './SignUpForm.css';
 
 class SignUpForm extends React.Component {
@@ -14,6 +15,7 @@ class SignUpForm extends React.Component {
             formValid: false,
             displayMessage: false,
             toLogin: false,
+            button: 'Sign Up',
             validationMessages: {
                 username: '',
                 password: [],
@@ -89,6 +91,7 @@ class SignUpForm extends React.Component {
     }
 
     handleSubmit = e => {
+        console.log('submitting form')
         e.preventDefault()
         const { username, password } = e.target
 
@@ -110,8 +113,18 @@ class SignUpForm extends React.Component {
                     })
             })
             .catch(() => {
+                this.signUp()
                 console.log('error')
             })
+    }
+
+    // change function name
+    signUp = () => {
+        if (this.state.button === "Sign Up") {
+            this.setState({ button: <Loader /> })
+        } else {
+            this.setState({ button: "Sign Up" })
+        }
     }
 
     render() {
@@ -144,7 +157,14 @@ class SignUpForm extends React.Component {
                     </div>
                 </div>
                 <div className='SignUpForm__buttons'>
-                    <button className='SignUpForm__buttons__signup' type='submit' disabled={!this.state.formValid}>Sign Up</button>
+                    {/* 
+                        When I click the button:
+                            Remove 'sign up' text
+                            Add loader
+                            Change text back when error
+                            Show error message when error
+                    */}
+                    <button className='SignUpForm__buttons__signup' type='submit' disabled={!this.state.formValid} onClick={() => this.signUp()}>{this.state.button}</button>
                 </div>
             </form>
         );
